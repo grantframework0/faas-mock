@@ -234,7 +234,7 @@ textarea.form-input{height:72px;resize:vertical;padding:7px 10px}
 
 <script>
 var step = 1;
-var totalSteps = 4;
+var totalSteps = 1;
 
 var rows = [
   {name:'fs_bigquery_prod',  type:'BigQuery', host:'myproject.dataset',          status:'Registered', sch:true},
@@ -244,7 +244,7 @@ var rows = [
 ];
 
 function stepBar(active) {
-  var labels = ['Gateway details','Connection &amp; auth','Select data sources','Review &amp; create'];
+  var labels = ['Gateway details'];
   var html = '<div class="step-bar">';
   for (var i = 0; i < labels.length; i++) {
     if (i > 0) html += '<div class="step-connector"></div>';
@@ -334,6 +334,36 @@ function renderStep1() {
     + '</div></div>'
     + '</div>'
 
+    + '<div id="td-marketplace-panel" style="display:none;margin-top:16px">'
+    + '<div style="background:#fff;border:1px solid #c6c6c6;border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)">'
+    + '<div style="background:#232F3E;padding:10px 18px;display:flex;align-items:center;gap:8px">'
+    + '<svg width="18" height="18" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="4" fill="#FF9900"/><text x="16" y="22" text-anchor="middle" fill="#fff" font-size="14" font-weight="900" font-family="Arial">aws</text></svg>'
+    + '<span style="color:#FF9900;font-weight:900;font-size:13px;letter-spacing:.3px">AWS Marketplace</span>'
+    + '</div>'
+    + '<div style="padding:20px 24px">'
+    + '<div style="display:flex;gap:16px;align-items:flex-start">'
+    + '<div style="width:56px;height:56px;background:#FF6B00;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="color:#fff;font-size:14px;font-weight:900">TD</span></div>'
+    + '<div style="flex:1">'
+    + '<div style="font-size:16px;font-weight:700;color:#16191F;margin-bottom:3px">Teradata Fabric Universal Connector</div>'
+    + '<div style="font-size:12px;color:#687078;margin-bottom:10px">By Teradata &nbsp;|&nbsp; Version 2.4.1 &nbsp;|&nbsp; <span style="color:#0073BB;cursor:pointer">View product page &#8599;</span></div>'
+    + '<div style="font-size:13px;color:#16191F;margin-bottom:14px;line-height:1.5">Connect Amazon Bedrock AgentCore to Teradata Vantage and other enterprise data sources through a secure, managed connector. Enables federated queries, semantic search, and real-time data access for AI agents.</div>'
+    + '<div style="background:#FFF8E6;border:1px solid #E9A41A;border-radius:4px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;margin-bottom:16px">'
+    + '<svg width="16" height="16" viewBox="0 0 16 16" style="flex-shrink:0;margin-top:1px"><polygon points="8,2 15,14 1,14" fill="#E9A41A"/><text x="8" y="13" text-anchor="middle" fill="#fff" font-size="8" font-weight="900" font-family="Arial">!</text></svg>'
+    + '<div><div style="font-size:13px;font-weight:700;color:#16191F;margin-bottom:2px">Not yet enabled</div><div style="font-size:13px;color:#16191F">Your AWS account is not subscribed to this product. Subscribe through AWS Marketplace to enable this integration.</div></div>'
+    + '</div>'
+    + '<div style="border-top:1px solid #e8e8e8;padding-top:14px;margin-bottom:14px">'
+    + '<div style="font-size:11px;font-weight:700;color:#687078;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Pricing</div>'
+    + '<div style="font-size:13px;color:#16191F;margin-bottom:3px">No additional software charges. Infrastructure costs apply based on the EC2 instance type you select.</div>'
+    + '<div style="font-size:12px;color:#1E8900;font-weight:600">&#10003;&nbsp; 30-day free trial available</div>'
+    + '</div>'
+    + '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">'
+    + '<button onclick="subscribeMarketplace()" style="background:#FF9900;color:#fff;border:1px solid #E88B00;border-radius:3px;padding:7px 22px;font-size:13px;font-weight:700;cursor:pointer">Subscribe</button>'
+    + '<button style="background:#fff;color:#16191F;border:1px solid #8d9096;border-radius:3px;padding:7px 14px;font-size:13px;cursor:pointer">View in AWS Marketplace &#8599;</button>'
+    + '<span style="font-size:12px;color:#687078">By subscribing, you agree to the <span style="color:#0073BB;cursor:pointer">Teradata EULA</span></span>'
+    + '</div>'
+    + '</div></div></div></div></div>'
+
+
     + '<div id="ce-bundle-wrap" style="display:none;margin-top:8px">'
     + '<div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:16px 20px">'
     + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">'
@@ -349,6 +379,7 @@ function renderStep1() {
     + '<div><label class="form-label">Subnet</label><select class="form-select"><option>subnet-0a1b2c &mdash; us-east-2a (private)</option></select></div>'
     + '</div></div></div></div></div>'
 
+    + '<div id="td-deploy-row" style="display:none;margin-top:20px;justify-content:flex-end"><button onclick="nextStep()" style="background:var(--aws-blue);color:#fff;border:none;border-radius:3px;padding:8px 28px;font-size:13px;font-weight:700;cursor:pointer">Deploy</button></div>'
 
     + '<div id="edc-section" style="display:none;margin-top:16px">'
     + '<div class="form-group" style="max-width:560px">'
@@ -577,16 +608,47 @@ function onTemplateChange(val) {
     // Make sure integ-section is visible (it's the parent container)
     var integSec = document.getElementById('integ-section');
     if(integSec) integSec.style.display='block';
-    if(addConfigBody) addConfigBody.style.display='block';
-    if(addConfigArrow) addConfigArrow.innerHTML='&#9660;';
-    if(ceBundleWrap) ceBundleWrap.style.display='block';
-    showDSSection();
+    var mktPanel = document.getElementById('td-marketplace-panel');
+    var addConfigBody2 = document.getElementById('add-config-body');
+    var addConfigArrow2 = document.getElementById('add-config-arrow');
+    var ceBundleWrap2 = document.getElementById('ce-bundle-wrap');
+    var deployRow2 = document.getElementById('td-deploy-row');
+    if(tdSubscribed) {
+      if(mktPanel) mktPanel.style.display='none';
+      if(addConfigBody2) addConfigBody2.style.display='block';
+      if(addConfigArrow2) addConfigArrow2.innerHTML='&#9660;';
+      if(ceBundleWrap2) ceBundleWrap2.style.display='block';
+      if(tdDeployed) {
+        if(deployRow2) deployRow2.style.display='none';
+        var configEls2 = document.querySelectorAll('#add-config-body input,#add-config-body textarea,#add-config-body select,#ce-bundle-body input,#ce-bundle-body select');
+        configEls2.forEach(function(el){ el.disabled=true; });
+      } else {
+        if(deployRow2) deployRow2.style.display='flex';
+      }
+    } else {
+      if(mktPanel) mktPanel.style.display='block';
+    }
   } else {
     if(te) te.style.display = val ? 'block' : 'none';
     if(dsSec) dsSec.style.display = 'none';
     if(ceBundleWrap) ceBundleWrap.style.display = 'none';
+    var mktPanel2 = document.getElementById('td-marketplace-panel');
+    if(mktPanel2) mktPanel2.style.display='none';
     if(tg) tg.style.display = 'block';
   }
+}
+function subscribeMarketplace() {
+  tdSubscribed = true;
+  var mktPanel = document.getElementById('td-marketplace-panel');
+  if(mktPanel) mktPanel.style.display='none';
+  var addConfigBody = document.getElementById('add-config-body');
+  var addConfigArrow = document.getElementById('add-config-arrow');
+  var ceBundleWrap = document.getElementById('ce-bundle-wrap');
+  var deployRow = document.getElementById('td-deploy-row');
+  if(addConfigBody) addConfigBody.style.display='block';
+  if(addConfigArrow) addConfigArrow.innerHTML='&#9660;';
+  if(ceBundleWrap) ceBundleWrap.style.display='block';
+  if(!tdDeployed && deployRow) deployRow.style.display='flex';
 }
 /* ---- STEP 3: Select data sources ---- */
 function typeColor(t) {
@@ -799,6 +861,8 @@ var providers = [
 var selectedProvider = null;
 var selectedTemplate = null;
 var ddOpen = false;
+var tdSubscribed = false;
+var tdDeployed = false;
 
 function renderProviderList(filter) {
   var list = document.getElementById('provider-list');
@@ -897,14 +961,32 @@ function onTemplateChange(val) {
     // Make sure integ-section is visible (it's the parent container)
     var integSec = document.getElementById('integ-section');
     if(integSec) integSec.style.display='block';
-    if(addConfigBody) addConfigBody.style.display='block';
-    if(addConfigArrow) addConfigArrow.innerHTML='&#9660;';
-    if(ceBundleWrap) ceBundleWrap.style.display='block';
-    showDSSection();
+    var mktPanel = document.getElementById('td-marketplace-panel');
+    var addConfigBody2 = document.getElementById('add-config-body');
+    var addConfigArrow2 = document.getElementById('add-config-arrow');
+    var ceBundleWrap2 = document.getElementById('ce-bundle-wrap');
+    var deployRow2 = document.getElementById('td-deploy-row');
+    if(tdSubscribed) {
+      if(mktPanel) mktPanel.style.display='none';
+      if(addConfigBody2) addConfigBody2.style.display='block';
+      if(addConfigArrow2) addConfigArrow2.innerHTML='&#9660;';
+      if(ceBundleWrap2) ceBundleWrap2.style.display='block';
+      if(tdDeployed) {
+        if(deployRow2) deployRow2.style.display='none';
+        var configEls2 = document.querySelectorAll('#add-config-body input,#add-config-body textarea,#add-config-body select,#ce-bundle-body input,#ce-bundle-body select');
+        configEls2.forEach(function(el){ el.disabled=true; });
+      } else {
+        if(deployRow2) deployRow2.style.display='flex';
+      }
+    } else {
+      if(mktPanel) mktPanel.style.display='block';
+    }
   } else {
     if(te) te.style.display = val ? 'block' : 'none';
     if(dsSec) dsSec.style.display = 'none';
     if(ceBundleWrap) ceBundleWrap.style.display = 'none';
+    var mktPanel2 = document.getElementById('td-marketplace-panel');
+    if(mktPanel2) mktPanel2.style.display='none';
     if(tg) tg.style.display = 'block';
   }
 }
@@ -1131,7 +1213,9 @@ function render() {
   var btnNext = document.getElementById('btn-next');
   var ind = document.getElementById('indicator');
 
-  if(step === 1) {
+  if(step > totalSteps) {
+    main.innerHTML = renderSuccess();
+  } else if(step === 1) {
     main.innerHTML = renderStep1();
     // Re-apply provider/template state after DOM rebuild
     if(selectedProvider) {
@@ -1151,7 +1235,6 @@ function render() {
   else if(step === 2) { main.innerHTML = renderStep2(); }
   else if(step === 3) { main.innerHTML = renderStep3(); }
   else if(step === 4) { main.innerHTML = renderStep4(); }
-  else { main.innerHTML = renderSuccess(); }
 
   btnPrev.style.display = (step > 1 && step <= totalSteps) ? 'inline-block' : 'none';
   if(step > totalSteps) {
@@ -1191,14 +1274,27 @@ function doCreateGateway() {
 }
 
 function nextStep() {
-  step = Math.min(step+1, totalSteps+1);
-  if(step === 2) step = 3; // step 1 and 2 merged
-  render();
-  if(step === totalSteps+1) {
-    setTimeout(activateNewGateway, 2500);
+  tdDeployed = true;
+  var overlay = document.createElement('div');
+  overlay.id = 'deploy-spinner-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(255,255,255,.75);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px';
+  overlay.innerHTML = '<div style="width:48px;height:48px;border:4px solid #e0e0e0;border-top-color:var(--aws-blue);border-radius:50%;animation:spin 0.8s linear infinite"></div>'
+    + '<div style="font-size:14px;color:var(--aws-text);font-weight:500">Deploying gateway…</div>';
+  if(!document.getElementById('deploy-spinner-style')) {
+    var st = document.createElement('style');
+    st.id = 'deploy-spinner-style';
+    st.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+    document.head.appendChild(st);
   }
+  document.body.appendChild(overlay);
+  setTimeout(function() {
+    overlay.remove();
+    step = totalSteps + 1;
+    render();
+    setTimeout(activateNewGateway, 2500);
+  }, 3000);
 }
-function prevStep() { step = Math.max(step-1, 1); if(step === 2) step = 1; render(); }
+function prevStep() { step = 1; render(); }
 
 render();
 
@@ -1400,6 +1496,10 @@ document.addEventListener('click', function(e) {
 
 
 var dsConnectors = [];
+var configuredDataSources = [];
+var tucVersion = '2.3.1';
+var tucLatestVersion = '2.4.1';
+var tucUpgrading = false;
 var currentConnType = null;
 
 var connConfig = {
@@ -1490,6 +1590,8 @@ var connConfig = {
 
 
 function showGatewayDetail() {
+  var ptd = document.getElementById('page-target-detail');
+  if(ptd) ptd.style.display = 'none';
   var main = document.getElementById('main');
   // hide footer nav
   var footer = document.getElementById('footer-bar');
@@ -1621,120 +1723,395 @@ function renderGatewayDetail() {
 
 
 function showTargetDetail() {
-  step = 1;
-  var footer = document.getElementById('footer-bar');
-  if(footer) footer.style.display = 'flex';
-  render();
-  var main = document.getElementById('main');
-  if(main) main.scrollTop = 0;
-  // Pre-select EDC tile and TUC after render
-  setTimeout(function() {
-    var edcTile = document.getElementById('tile-edc');
-    if(edcTile) {
-      selectTile(edcTile, 'edc');
-      selectConnector();
-    }
-    // Move ds-select-static into placeholder
-    var dsStatic = document.getElementById('ds-select-static');
-    var placeholder = document.getElementById('ds-select-section');
-    if(dsStatic && placeholder) {
-      placeholder.appendChild(dsStatic);
-      dsStatic.style.display = 'block';
-    } else if(placeholder) {
-      placeholder.innerHTML = buildDSDropdownHTML();
-    }
-    // Reset ds dropdown label
-    var lbl = document.getElementById('ds-dd-label');
-    if(lbl) { lbl.textContent = 'Select a data source...'; lbl.style.color = 'var(--aws-muted)'; }
-    // Close any open dropdown
-    var ddList = document.getElementById('ds-dd-list');
-    if(ddList) ddList.style.display = 'none';
-    dsDDOpen = false;
-    // Show ds-section, hide Create gateway button (edit mode)
-    var dsSec = document.getElementById('ds-section');
-    if(dsSec) dsSec.style.display = 'block';
-    var createBtn = document.getElementById('ds-create-btn');
-    if(createBtn) createBtn.style.display = 'none';
-    renderDSTable();
-  }, 50);
+  tdSubscribed = true;
+  tdDeployed = true;
+  var pg = document.getElementById('page-target-detail');
+  pg.style.display = 'block';
+  var content = document.getElementById('page-target-detail-content');
+  if(content) content.innerHTML = renderTargetDetail();
+}
+
+function renderTargetDetailIntoPage() {
+  var content = document.getElementById('page-target-detail-content');
+  if(content) content.innerHTML = renderTargetDetail();
 }
 
 function renderTargetDetail() {
-  // Build connector rows from dsConnectors
-  var connRows = dsConnectors.length > 0 ? dsConnectors.map(function(c, i) {
-    return '<tr style="border-bottom:1px solid #e0e0e0">'
-      + '<td style="padding:10px 12px"><input type="radio" name="conn-sel" style="accent-color:var(--aws-blue)"/></td>'
-      + '<td style="padding:10px 14px;color:var(--aws-blue);font-weight:500">' + c.name + '</td>'
-      + '<td style="padding:10px 14px"><span style="display:inline-flex;align-items:center;gap:5px;background:#f5f5f5;border:1px solid #e0e0e0;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600"><span style="width:14px;height:14px;border-radius:2px;background:' + c.color + ';color:#fff;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">' + c.icon + '</span>' + c.label + '</span></td>'
-      + '<td style="padding:10px 14px;color:var(--aws-muted);font-size:12px">' + c.host + '</td>'
-      + '<td style="padding:10px 14px">' + (c.status === 'registered'
-        ? '<span style="display:inline-flex;align-items:center;gap:4px;color:#1E8900;font-weight:500;font-size:13px"><svg width="13" height="13" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#E8F5E9" stroke="#1E8900" stroke-width="1.2"/><path d=\"M4 7l2 2 4-4\" stroke=\"#1E8900\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Registered</span>'
-        : '<span style="display:inline-flex;align-items:center;gap:4px;color:#FF9900;font-weight:500;font-size:13px"><svg width="13" height="13" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#FFF3E0" stroke="#FF9900" stroke-width="1.2"/><circle cx="7" cy="7" r="2" fill="#FF9900"/></svg>Pending</span>'
-      ) + '</td>'
-      + '<td style="padding:10px 14px"><button onclick="editConnector(' + i + ')" style="background:none;border:none;color:var(--aws-blue);cursor:pointer;font-size:12px">Edit</button> <button onclick="removeConnector(' + i + ');showTargetDetail()" style="background:none;border:none;color:#d13212;cursor:pointer;font-size:12px">Remove</button></td>'
-      + '</tr>';
-  }).join('') : '<tr><td colspan="6" style="padding:24px;text-align:center;color:var(--aws-muted);font-size:13px">No connectors added yet.</td></tr>';
+
+  /* Data sources card */
+  var dsRows = configuredDataSources.length === 0
+    ? '<tr><td colspan="4" style="padding:40px;text-align:center;color:var(--aws-muted);font-size:13px">No data sources configured. Click <strong>Add a data source</strong> to get started.</td></tr>'
+    : configuredDataSources.map(function(c) {
+        var idx = configuredDataSources.indexOf(c);
+        var spinner = '<svg width="13" height="13" viewBox="0 0 13 13" style="animation:spin .8s linear infinite"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#e0c000" stroke-width="2"/><path d="M6.5 1.5 A5 5 0 0 1 11.5 6.5" stroke="#8c6d00" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
+        var statusCell = c.status === 'ready'
+          ? '<span style="display:inline-flex;align-items:center;gap:5px;color:#1E8900;font-weight:500;font-size:13px"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#E8F5E9" stroke="#1E8900" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#1E8900" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Ready</span>'
+          : c.status === 'updating'
+          ? '<span style="display:inline-flex;align-items:center;gap:5px;color:#8c6d00;font-weight:500;font-size:13px">' + spinner + 'Updating</span>'
+          : '<span style="display:inline-flex;align-items:center;gap:5px;color:#8c6d00;font-weight:500;font-size:13px">' + spinner + 'Configuring</span>';
+        return '<tr style="border-bottom:1px solid #e0e0e0" id="td-ds-row-' + idx + '">'
+          + '<td style="padding:12px 16px;font-weight:500;color:var(--aws-blue)">' + c.name + '</td>'
+          + '<td style="padding:12px 16px"><span style="display:inline-flex;align-items:center;gap:5px;background:#f5f5f5;border:1px solid #e0e0e0;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:600"><span style="width:18px;height:18px;border-radius:3px;background:' + c.color + ';color:#fff;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">' + c.icon + '</span>' + c.label + '</span></td>'
+          + '<td style="padding:12px 16px">' + statusCell + '</td>'
+          + '<td style="padding:12px 16px;white-space:nowrap"><button onclick="tdEditDS(' + idx + ')" style="background:none;border:none;color:var(--aws-blue);cursor:pointer;font-size:13px;padding:0;margin-right:12px">Edit</button><button onclick="tdRemoveDS(' + idx + ')" style="background:none;border:none;color:#d13212;cursor:pointer;font-size:13px;padding:0">Remove</button></td>'
+          + '</tr>';
+      }).join('');
+
+  var dsTiles = ['bigquery','cdp','oracle','teradata','databricks','dremio'].map(function(type) {
+    var cfg = connConfig[type];
+    return '<div class="kb-ds-tile" onclick="tdSelectDSTile(this,\'' + type + '\')" style="display:flex;align-items:center;gap:10px;border:1px solid #d5dbdb;border-radius:6px;padding:12px 14px;cursor:pointer;background:#fff">'
+      + '<div style="width:28px;height:28px;border-radius:4px;background:' + cfg.color + ';color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + cfg.icon + '</div>'
+      + '<span style="font-size:13px;font-weight:500;color:var(--aws-text)">' + cfg.label + '</span>'
+      + '<input type="radio" name="td-ds-type" style="margin-left:auto;accent-color:var(--aws-blue)">'
+      + '</div>';
+  }).join('');
+
+  var dsCard = '<div style="background:#fff;border:1px solid #d5dbdb;border-radius:8px;overflow:hidden;margin-top:20px">'
+    + '<div style="padding:16px 24px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between">'
+    + '<div style="display:flex;align-items:baseline;gap:8px">'
+    + '<span style="font-size:16px;font-weight:700;color:var(--aws-text)">Data sources</span>'
+    + '<span style="font-size:13px;color:var(--aws-muted)">(' + configuredDataSources.length + ')</span>'
+    + '</div>'
+    + '<button onclick="tdAddDataSource()" style="background:#fff;border:1px solid #aab7b8;color:var(--aws-text);padding:5px 16px;border-radius:3px;font-size:13px;cursor:pointer;font-weight:500">+ Add a data source</button>'
+    + '</div>'
+    + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+    + '<thead><tr style="background:#fafafa;border-bottom:1px solid #e0e0e0">'
+    + '<th style="text-align:left;padding:10px 16px;font-weight:700;color:var(--aws-text);font-size:12px">Name</th>'
+    + '<th style="text-align:left;padding:10px 16px;font-weight:700;color:var(--aws-text);font-size:12px">Type</th>'
+    + '<th style="text-align:left;padding:10px 16px;font-weight:700;color:var(--aws-text);font-size:12px">Status</th>'
+    + '<th style="padding:10px 16px"></th>'
+    + '</tr></thead>'
+    + '<tbody>' + dsRows + '</tbody></table>'
+    + '<div id="td-ds-add-section" style="display:none;padding:20px 24px;border-top:1px solid #e0e0e0;background:#fafafa">'
+    + '<div style="font-size:14px;font-weight:700;color:var(--aws-text);margin-bottom:14px">Choose data source type</div>'
+    + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">' + dsTiles + '</div>'
+    + '<div id="td-ds-inline-form"></div>'
+    + '</div>'
+    + '</div>';
 
   return ''
   /* breadcrumb */
-  + '<div style="display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:18px">'
-  + '<span style="color:var(--aws-blue);cursor:pointer" onclick="backToGateways()">Gateways</span>'
-  + '<span style="color:var(--aws-muted)">›</span>'
-  + '<span style="color:var(--aws-blue);cursor:pointer" onclick="showGatewayDetail()">gateway-querygrid-teradata</span>'
-  + '<span style="color:var(--aws-muted)">›</span>'
+  + '<div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--aws-blue);margin-bottom:16px">'
+  + '<span style="cursor:pointer" onclick="backToGateways()">Gateways</span>'
+  + '<span style="color:var(--aws-muted);margin:0 2px">›</span>'
+  + '<span style="cursor:pointer" onclick="showGatewayDetail()">gateway-querygrid-teradata</span>'
+  + '<span style="color:var(--aws-muted);margin:0 2px">›</span>'
   + '<span style="color:var(--aws-text);font-weight:500">target-td-universal-connector</span>'
   + '</div>'
 
-  /* title */
-  + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">'
-  + '<div class="page-h1">target-td-universal-connector</div>'
-  + '<div style="display:flex;gap:8px">'
-  + '<button style="background:#fff;border:1px solid #aab7b8;color:var(--aws-text);padding:6px 16px;border-radius:20px;font-size:13px;cursor:pointer">Sync</button>'
-  + '<button style="background:#fff;border:1.5px solid var(--aws-blue);color:var(--aws-blue);padding:6px 18px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer">Edit</button>'
-  + '<button style="background:#fff;border:1.5px solid #d13212;color:#d13212;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer">Delete</button>'
-  + '</div></div>'
-
-  /* Engine deployment card */
-  + '<div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;margin-bottom:20px">'
-  + '<div style="padding:14px 24px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:10px">'
-  + '<span style="background:#FF6B00;color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:3px">Teradata Fabric Universal Connector</span>'
-  
-  + '<span style="display:inline-flex;align-items:center;gap:4px;color:#1E8900;font-weight:500;font-size:13px;margin-left:auto"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#E8F5E9" stroke="#1E8900" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#1E8900" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Active</span>'
+  /* page title row */
+  + '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">'
+  + '<div>'
+  + '<div style="font-size:20px;font-weight:700;color:var(--aws-text);margin-bottom:4px">Target: target-td-universal-connector</div>'
+  + '<div style="font-size:13px;color:var(--aws-muted)">Targets are endpoints that define one or more tools as part of this gateway. You can define multiple targets for this gateway.</div>'
   + '</div>'
-  + '<div style="display:grid;grid-template-columns:1fr 1fr;padding:20px 24px;gap:14px 60px;font-size:13px">'
-  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:2px">Deployment</div><div style="color:var(--aws-muted)">CE + QGM + Driver Nodes (CloudFormation)</div></div>'
-  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:2px">Instance type</div><div style="color:var(--aws-muted)">m5.2xlarge</div></div>'
-  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:2px">AWS region</div><div style="color:var(--aws-muted)">us-east-2 (US East — Ohio)</div></div>'
-  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:2px">VPC</div><div style="color:var(--aws-muted)">vpc-0a1b2c3d — prod-vpc (10.0.0.0/16)</div></div>'
-  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:2px">Subnet</div><div style="color:var(--aws-muted)">subnet-0a1b2c — us-east-2a (private)</div></div>'
-  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:2px">CloudFormation stack</div><div style="color:var(--aws-blue);cursor:pointer">cfn-teradata-uc-prod &#8599;</div></div>'
+  + '<div style="display:flex;gap:8px;flex-shrink:0;margin-left:24px">'
+  + '<button style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #aab7b8;color:var(--aws-text);padding:6px 16px;border-radius:20px;font-size:13px;cursor:pointer"><svg width="13" height="13" viewBox="0 0 14 14" style="animation:spin 1.5s linear infinite paused"><circle cx="7" cy="7" r="5.5" fill="none" stroke="#687078" stroke-width="1.5"/><path d="M7 1.5 A5.5 5.5 0 0 1 12.5 7" stroke="#687078" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>Sync</button>'
+  + '<button style="background:#fff;border:1.5px solid var(--aws-blue);color:var(--aws-blue);padding:6px 20px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer">Edit</button>'
+  + '<button style="background:#fff;border:1.5px solid #d13212;color:#d13212;padding:6px 20px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer">Delete</button>'
   + '</div></div>'
 
-  /* Connectors card */
-  + '<div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden">'
-  + '<div style="padding:14px 24px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between">'
-  + '<div><span style="font-size:15px;font-weight:700;color:var(--aws-text)">Connectors</span>'
-  + '<span style="font-size:13px;color:var(--aws-muted);margin-left:6px">(' + dsConnectors.length + ')</span></div>'
-  + '<div style="display:flex;gap:8px">'
-  + '<button style="background:#fff;color:var(--aws-text);border:1px solid #aab7b8;padding:5px 14px;border-radius:3px;font-size:13px;cursor:pointer">Remove</button>'
-  + '<button onclick="showDSSection()" style="background:var(--aws-orange);color:#fff;border:1px solid #E88B00;padding:5px 16px;border-radius:3px;font-size:13px;font-weight:700;cursor:pointer">+ Add connector</button>'
+  /* Target details card */
+  + '<div style="background:#fff;border:1px solid #d5dbdb;border-radius:8px;padding:24px;margin-bottom:16px">'
+  + '<div style="font-size:16px;font-weight:700;color:var(--aws-text);margin-bottom:20px">Target details</div>'
+  + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px 32px;font-size:13px;border-top:1px solid #e0e0e0;padding-top:20px">'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Target name</div><div style="color:var(--aws-muted)">target-td-universal-connector</div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Description</div><div style="color:var(--aws-muted)">Teradata Fabric Universal Connector — federated data connector</div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Created</div><div style="color:var(--aws-muted)">April 28, 2026, 14:42 PM</div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Target ID</div><div style="color:var(--aws-muted)">TUC4F8K2QRJDXV</div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Status</div><div><span style="display:inline-flex;align-items:center;gap:5px;color:#1E8900;font-weight:500"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#E8F5E9" stroke="#1E8900" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#1E8900" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Ready</span></div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Last modified</div><div style="color:var(--aws-muted)">April 28, 2026, 14:42 PM</div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Protocol type</div><div style="color:var(--aws-muted)">MCP</div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Pass-through</div><div style="color:var(--aws-muted)">Not passthrough</div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Last synced</div><div style="color:var(--aws-muted)">—</div></div>'
+  + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Target type</div><div style="color:var(--aws-muted)">Integrations</div></div>'
+  + '<div></div><div></div>'
+  + '<div style="grid-column:1"><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">MCP endpoint</div>'
+  + '<div style="display:flex;align-items:center;gap:6px;color:var(--aws-blue);cursor:pointer"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 1h8v8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>https://bedrock-agentcore.us-east-2.amazonaws.com/runtimes/TUC4F8K2QRJDXV/mcp</div>'
+  + '</div>'
+  + (function() {
+      var behind = tucVersion !== tucLatestVersion;
+      var versionCell = behind
+        ? '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">'
+          + '<span style="color:#d13212;font-weight:600">' + tucVersion + '</span>'
+          + '<span style="display:inline-flex;align-items:center;gap:4px;background:#FEF3F0;border:1px solid #f5bfb3;border-radius:3px;padding:2px 8px;font-size:11px;font-weight:700;color:#d13212">&#9650; Update available (' + tucLatestVersion + ')</span>'
+          + '<button onclick="showAdminUI(\'software\')" style="background:none;border:none;color:var(--aws-blue);cursor:pointer;font-size:12px;padding:0;text-decoration:underline">Go to Software Management</button>'
+          + '</div>'
+        : '<span style="color:#1E8900;font-weight:600">' + tucVersion + '</span><span style="font-size:12px;color:var(--aws-muted);margin-left:8px">&#10003; Up to date</span>';
+      return '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Software version</div><div>' + versionCell + '</div></div>'
+        + '<div><div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Admin UI</div>'
+        + '<div style="display:flex;align-items:center;gap:6px;color:var(--aws-blue);cursor:pointer" onclick="showAdminUI()">'
+        + '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 1h8v8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        + 'https://tuc-admin.prod.us-east-2.internal/ui</div></div>';
+    })()
+  + '</div>'
+  /* Additional configurations collapsible */
+  + '<div style="border-top:1px solid #e0e0e0;margin-top:20px;padding-top:4px">'
+  + '<div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\';this.querySelector(\'span\').textContent=this.nextElementSibling.style.display===\'none\'?\'►\':\'▼\';" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:12px 0;font-size:14px;font-weight:600;color:var(--aws-text)">'
+  + '<span style="font-size:11px">►</span>Additional configurations'
+  + '</div>'
+  + '<div style="display:none;padding-bottom:12px;font-size:13px;color:var(--aws-muted)">No additional configurations set.</div>'
+  + '</div>'
+  + '</div>'
+
+  /* Outbound Auth details card */
+  + '<div style="background:#fff;border:1px solid #d5dbdb;border-radius:8px;padding:24px;margin-bottom:0">'
+  + '<div style="font-size:16px;font-weight:700;color:var(--aws-text);margin-bottom:16px">Outbound Auth details</div>'
+  + '<div style="font-size:13px;border-top:1px solid #e0e0e0;padding-top:16px">'
+  + '<div style="font-weight:700;color:var(--aws-text);margin-bottom:4px">Outbound Auth configurations</div>'
+  + '<div style="color:var(--aws-muted)">OAuth client</div>'
+  + '</div>'
+  + '</div>'
+
+  /* Data sources */
+  + dsCard
+
+  /* Schema Details */
+  + '<div style="background:#fff;border:1px solid #d5dbdb;border-radius:8px;overflow:hidden;margin-top:20px">'
+  + '<div style="padding:16px 24px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:10px">'
+  + '<span style="font-size:16px;font-weight:700;color:var(--aws-text)">Schema Details</span>'
+  + '<span style="font-size:13px;font-style:italic;color:var(--aws-muted)">&mdash; optional</span>'
+  + '<span style="background:var(--aws-blue);color:#fff;font-size:10px;padding:1px 7px;border-radius:3px;font-weight:700;margin-left:4px">Info</span>'
+  + '</div>'
+  + '<div style="padding:20px 24px">'
+  + '<div style="font-size:13px;color:var(--aws-muted);margin-bottom:20px">Additional parameters used to optimize query generation and execution.</div>'
+
+  /* Query execution timeout */
+  + '<div style="margin-bottom:20px">'
+  + '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:13px;font-weight:700;color:var(--aws-text)">Query execution timeout</span><span style="background:var(--aws-blue);color:#fff;font-size:10px;padding:1px 7px;border-radius:3px;font-weight:700">Info</span></div>'
+  + '<div style="font-size:12px;color:var(--aws-muted);margin-bottom:6px">The maximum duration for which a SQL query can be executed before it times out and gets canceled.</div>'
+  + '<div style="display:flex;align-items:center;gap:8px"><input style="width:140px;border:1px solid #aab7b8;border-radius:3px;padding:7px 10px;font-size:13px" value="60"/><span style="font-size:13px;color:var(--aws-muted)">seconds</span></div>'
+  + '<div style="font-size:12px;color:var(--aws-muted);margin-top:4px">Specify a time between 1 and 200 seconds. (Default: 60 seconds)</div>'
+  + '</div>'
+
+  /* Table and column descriptions */
+  + '<div style="border-top:1px solid #e0e0e0;padding-top:14px;margin-bottom:14px">'
+  + '<div onclick="var b=document.getElementById(\'sd-tcd-body\');var a=document.getElementById(\'sd-tcd-arrow\');b.style.display=b.style.display===\'none\'?\'block\':\'none\';a.textContent=b.style.display===\'none\'?\'►\':\'▼\';" style="display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;margin-bottom:4px">'
+  + '<span id="sd-tcd-arrow" style="font-size:11px">►</span>'
+  + '<span style="font-size:14px;font-weight:700;color:var(--aws-text)">Table and column descriptions</span>'
+  + '<span style="font-size:13px;color:var(--aws-muted)">(0)</span>'
+  + '<span style="background:var(--aws-blue);color:#fff;font-size:10px;padding:1px 7px;border-radius:3px;font-weight:700">Info</span>'
+  + '</div>'
+  + '<div style="font-size:12px;color:var(--aws-muted)">Provide descriptions (annotations) for the tables and columns for improved accuracy.</div>'
+  + '<div id="sd-tcd-body" style="display:none;margin-top:12px">'
+  + '<div style="border:1px solid #e0e0e0;border-radius:4px;padding:14px;margin-bottom:10px">'
+  + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">'
+  + '<div><label style="font-size:12px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">Table name</label><input style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:6px 10px;font-size:13px" placeholder="database.schema.table"/></div>'
+  + '<div><label style="font-size:12px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">Column name &mdash; <em>optional</em></label><input style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:6px 10px;font-size:13px" placeholder="Enter the column name"/></div>'
+  + '</div>'
+  + '<div><label style="font-size:12px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">Description</label>'
+  + '<div style="display:flex;gap:8px;align-items:center">'
+  + '<input style="flex:1;border:1px solid #aab7b8;border-radius:3px;padding:6px 10px;font-size:13px" placeholder="Enter a description"/>'
+  + '<button style="background:none;border:1px solid #aab7b8;color:var(--aws-text);padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer">remove</button>'
+  + '</div></div></div>'
+  + '<button style="background:#fff;border:1.5px solid var(--aws-blue);color:var(--aws-blue);padding:5px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-weight:500">+ Add annotations</button>'
   + '</div></div>'
-  + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
-  + '<thead><tr style="background:#f8f8f8;border-bottom:1px solid #e0e0e0">'
-  + '<th style="width:36px;padding:10px 12px"></th>'
-  + '<th style="text-align:left;padding:10px 14px;font-weight:700;color:var(--aws-text)">Name</th>'
-  + '<th style="text-align:left;padding:10px 14px;font-weight:700;color:var(--aws-text)">Type</th>'
-  + '<th style="text-align:left;padding:10px 14px;font-weight:700;color:var(--aws-text)">Host / endpoint</th>'
-  + '<th style="text-align:left;padding:10px 14px;font-weight:700;color:var(--aws-text)">Status</th>'
-  + '<th style="padding:10px 14px"></th>'
-  + '</tr></thead>'
-  + '<tbody>' + connRows + '</tbody>'
-  + '</table></div>';
+
+  /* Table and column inclusions/exclusions */
+  + '<div style="border-top:1px solid #e0e0e0;padding-top:14px;margin-bottom:14px">'
+  + '<div onclick="var b=document.getElementById(\'sd-tci-body\');var a=document.getElementById(\'sd-tci-arrow\');b.style.display=b.style.display===\'none\'?\'block\':\'none\';a.textContent=b.style.display===\'none\'?\'►\':\'▼\';" style="display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;margin-bottom:4px">'
+  + '<span id="sd-tci-arrow" style="font-size:11px">►</span>'
+  + '<span style="font-size:14px;font-weight:700;color:var(--aws-text)">Table and column inclusions/exclusions</span>'
+  + '<span style="font-size:13px;color:var(--aws-muted)">(0/0)</span>'
+  + '<span style="background:var(--aws-blue);color:#fff;font-size:10px;padding:1px 7px;border-radius:3px;font-weight:700">Info</span>'
+  + '</div>'
+  + '<div id="sd-tci-body" style="display:none;margin-top:12px">'
+  + '<div style="display:flex;border-bottom:2px solid #e0e0e0;margin-bottom:14px"><div style="padding:6px 18px;font-size:13px;font-weight:600;color:var(--aws-blue);border-bottom:2px solid var(--aws-blue);margin-bottom:-2px;cursor:pointer">Inclusions</div><div style="padding:6px 18px;font-size:13px;color:var(--aws-muted);cursor:pointer">Exclusions</div></div>'
+  + '<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end">'
+  + '<div><label style="font-size:12px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">Table name</label><input style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:6px 10px;font-size:13px" placeholder="database.schema.table"/></div>'
+  + '<div><label style="font-size:12px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">Column name &mdash; <em>optional</em></label><input style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:6px 10px;font-size:13px" placeholder="Enter the column name"/></div>'
+  + '<button style="background:none;border:1px solid #aab7b8;color:var(--aws-text);padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;white-space:nowrap">remove</button>'
+  + '</div>'
+  + '<button style="background:#fff;border:1.5px solid var(--aws-blue);color:var(--aws-blue);padding:5px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-weight:500;margin-top:10px">+ Add inclusions</button>'
+  + '</div></div>'
+
+  /* Curated queries */
+  + '<div style="border-top:1px solid #e0e0e0;padding-top:14px">'
+  + '<div onclick="var b=document.getElementById(\'sd-cq-body\');var a=document.getElementById(\'sd-cq-arrow\');b.style.display=b.style.display===\'none\'?\'block\':\'none\';a.textContent=b.style.display===\'none\'?\'►\':\'▼\';" style="display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;margin-bottom:4px">'
+  + '<span id="sd-cq-arrow" style="font-size:11px">►</span>'
+  + '<span style="font-size:14px;font-weight:700;color:var(--aws-text)">Curated queries</span>'
+  + '<span style="font-size:13px;color:var(--aws-muted)">(0)</span>'
+  + '<span style="background:var(--aws-blue);color:#fff;font-size:10px;padding:1px 7px;border-radius:3px;font-weight:700">Info</span>'
+  + '</div>'
+  + '<div id="sd-cq-body" style="display:none;margin-top:12px">'
+  + '<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end">'
+  + '<div><label style="font-size:12px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">Question</label><input style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:6px 10px;font-size:13px" placeholder="Enter the question"/></div>'
+  + '<div><label style="font-size:12px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">Equivalent SQL query</label><input style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:6px 10px;font-size:13px" placeholder="Enter the SQL query"/></div>'
+  + '<button style="background:none;border:1px solid #aab7b8;color:var(--aws-text);padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;white-space:nowrap">remove</button>'
+  + '</div>'
+  + '<button style="background:#fff;border:1.5px solid var(--aws-blue);color:var(--aws-blue);padding:5px 14px;border-radius:20px;font-size:13px;cursor:pointer;font-weight:500;margin-top:10px">+ Add curated queries</button>'
+  + '</div></div>'
+
+  + '<div style="display:flex;justify-content:flex-end;padding-top:20px;margin-top:4px;border-top:1px solid #e0e0e0">'
+  + '<button onclick="applySchemaDetails(this)" style="background:var(--aws-orange);color:#fff;border:1px solid #E88B00;padding:7px 22px;border-radius:3px;font-size:13px;font-weight:700;cursor:pointer">Apply configuration</button>'
+  + '</div>'
+
+  + '</div></div>';
+}
+
+function applySchemaDetails(btn) {
+  btn.disabled = true;
+  btn.textContent = 'Applying…';
+  setTimeout(function() {
+    btn.textContent = 'Configuration applied';
+    btn.style.background = '#1E8900';
+    btn.style.borderColor = '#1E8900';
+    setTimeout(function() {
+      btn.disabled = false;
+      btn.textContent = 'Apply configuration';
+      btn.style.background = '';
+      btn.style.borderColor = '';
+    }, 2500);
+  }, 1500);
+}
+
+function tdAddDataSource() {
+  var sec = document.getElementById('td-ds-add-section');
+  if(sec) sec.style.display = sec.style.display === 'none' ? 'block' : 'none';
+}
+
+function tdSelectDSTile(tile, type) {
+  document.querySelectorAll('#td-ds-add-section .kb-ds-tile').forEach(function(t) {
+    t.style.border = '1px solid #e0e0e0'; t.style.background = '#fff';
+    var r = t.querySelector('input'); if(r) r.checked = false;
+  });
+  tile.style.border = '2px solid var(--aws-blue)';
+  tile.style.background = '#f0f8ff';
+  var r = tile.querySelector('input'); if(r) r.checked = true;
+  gwCurrentDSType = type;
+  var cfg = connConfig[type];
+  if(!cfg) return;
+  var wrap = document.getElementById('td-ds-inline-form');
+  if(!wrap) return;
+  wrap.style.marginTop = '16px';
+  wrap.innerHTML = '<div style="background:#fff;border:1px solid var(--aws-blue);border-radius:6px;padding:20px">'
+    + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e0e0e0">'
+    + '<div style="width:32px;height:32px;border-radius:6px;background:'+cfg.color+';color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">'+cfg.icon+'</div>'
+    + '<span style="font-size:15px;font-weight:700;color:var(--aws-text)">'+cfg.label+' connection details</span>'
+    + '</div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+    + cfg.fields.filter(function(f){return f.type!=='info'}).map(function(f) {
+        var html = '<div><label style="font-size:13px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">'+f.label+(f.required?' <span style="color:#d13212">*</span>':'')+'</label>';
+        if(f.hint) html += '<div style="font-size:12px;color:var(--aws-muted);margin-bottom:5px">'+f.hint+'</div>';
+        if(f.type==='select') {
+          html += '<select style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:7px 10px;font-size:13px;background:#fff">';
+          f.options.forEach(function(o){ html+='<option>'+o+'</option>'; });
+          html += '</select>';
+        } else {
+          html += '<input style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:7px 10px;font-size:13px" placeholder="'+(f.placeholder||'')+'" value="'+(f.value||'')+'">';
+        }
+        html += '</div>';
+        return html;
+      }).join('')
+    + '</div>'
+    + '<div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px;padding-top:12px;border-top:1px solid #e0e0e0">'
+    + '<button onclick="tdCancelDS()" style="background:#fff;color:var(--aws-text);border:1px solid #aab7b8;padding:6px 16px;border-radius:3px;font-size:13px;cursor:pointer">Cancel</button>'
+    + '<button onclick="tdConfigureDS()" style="background:var(--aws-blue);color:#fff;border:none;padding:6px 18px;border-radius:3px;font-size:13px;font-weight:600;cursor:pointer">Configure</button>'
+    + '</div></div>';
+}
+
+function tdConfigureDS() {
+  var type = gwCurrentDSType;
+  if(!type) return;
+  var cfg = connConfig[type];
+  var form = document.getElementById('td-ds-inline-form');
+  var inputs = form ? form.querySelectorAll('input[type=text], input:not([type]), select') : [];
+  var hostVal = inputs[0] ? inputs[0].value : '';
+  var shortName = hostVal && hostVal.trim() ? hostVal.split('.')[0] : (cfg ? cfg.label.toLowerCase().replace(/\s/g,'_') : type);
+  var newIdx = configuredDataSources.length;
+  configuredDataSources.push({ type:type, label:cfg.label, color:cfg.color, icon:cfg.icon, name:shortName, status:'configuring' });
+  gwCurrentDSType = null;
+  var content = document.getElementById('page-target-detail-content');
+  if(content) content.innerHTML = renderTargetDetail();
+  setTimeout(function() {
+    configuredDataSources[newIdx].status = 'ready';
+    var row = document.getElementById('td-ds-row-' + newIdx);
+    if(row) row.cells[2].innerHTML = '<span style="display:inline-flex;align-items:center;gap:4px;color:#1E8900;font-weight:500;font-size:13px"><svg width="13" height="13" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#E8F5E9" stroke="#1E8900" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#1E8900" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Ready</span>';
+  }, 3000);
+}
+
+function tdCancelDS() {
+  var sec = document.getElementById('td-ds-add-section');
+  if(sec) sec.style.display = 'none';
+  var form = document.getElementById('td-ds-inline-form');
+  if(form) form.innerHTML = '';
+  gwCurrentDSType = null;
+}
+
+function tdRemoveDS(idx) {
+  configuredDataSources.splice(idx, 1);
+  var content = document.getElementById('page-target-detail-content');
+  if(content) content.innerHTML = renderTargetDetail();
+}
+
+function tdEditDS(idx) {
+  var c = configuredDataSources[idx];
+  // Show the add section, pre-select the tile and populate the form
+  var sec = document.getElementById('td-ds-add-section');
+  if(sec) sec.style.display = 'block';
+  sec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Find and click the matching tile
+  var tiles = document.querySelectorAll('#td-ds-add-section .kb-ds-tile');
+  tiles.forEach(function(tile) {
+    var typeMatch = tile.getAttribute('onclick') && tile.getAttribute('onclick').indexOf("'" + c.type + "'") !== -1;
+    if(typeMatch) {
+      tiles.forEach(function(t) { t.style.border='1px solid #e0e0e0'; t.style.background='#fff'; var r=t.querySelector('input'); if(r) r.checked=false; });
+      tile.style.border = '2px solid var(--aws-blue)';
+      tile.style.background = '#f0f8ff';
+      var r = tile.querySelector('input'); if(r) r.checked = true;
+      gwCurrentDSType = c.type;
+      // Build form
+      var cfg = connConfig[c.type];
+      var wrap = document.getElementById('td-ds-inline-form');
+      if(!wrap || !cfg) return;
+      wrap.style.marginTop = '16px';
+      wrap.innerHTML = '<div style="background:#fff;border:1px solid var(--aws-blue);border-radius:6px;padding:20px">'
+        + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e0e0e0">'
+        + '<div style="width:32px;height:32px;border-radius:6px;background:'+cfg.color+';color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">'+cfg.icon+'</div>'
+        + '<span style="font-size:15px;font-weight:700;color:var(--aws-text)">Edit '+cfg.label+' connection</span>'
+        + '</div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+        + cfg.fields.filter(function(f){return f.type!=='info';}).map(function(f) {
+            var val = f.label.toLowerCase().indexOf('host') !== -1 ? c.name : (f.value || '');
+            var html = '<div><label style="font-size:13px;font-weight:700;color:var(--aws-text);display:block;margin-bottom:4px">'+f.label+'</label>';
+            if(f.type==='select') {
+              html += '<select style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:7px 10px;font-size:13px;background:#fff">';
+              f.options.forEach(function(o){ html+='<option>'+o+'</option>'; });
+              html += '</select>';
+            } else {
+              html += '<input style="width:100%;border:1px solid #aab7b8;border-radius:3px;padding:7px 10px;font-size:13px" placeholder="'+(f.placeholder||'')+'" value="'+val+'">';
+            }
+            return html + '</div>';
+          }).join('')
+        + '</div>'
+        + '<div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px;padding-top:12px;border-top:1px solid #e0e0e0">'
+        + '<button onclick="tdCancelDS()" style="background:#fff;color:var(--aws-text);border:1px solid #aab7b8;padding:6px 16px;border-radius:3px;font-size:13px;cursor:pointer">Cancel</button>'
+        + '<button onclick="tdSaveEditDS(' + idx + ')" style="background:var(--aws-blue);color:#fff;border:none;padding:6px 18px;border-radius:3px;font-size:13px;font-weight:600;cursor:pointer">Save</button>'
+        + '</div></div>';
+    }
+  });
+}
+
+function tdSaveEditDS(idx) {
+  var form = document.getElementById('td-ds-inline-form');
+  var inputs = form ? form.querySelectorAll('input[type=text], input:not([type]), select') : [];
+  var hostVal = inputs[0] ? inputs[0].value : '';
+  var shortName = hostVal && hostVal.trim() ? hostVal.split('.')[0] : configuredDataSources[idx].name;
+  configuredDataSources[idx].name = shortName;
+  configuredDataSources[idx].status = 'updating';
+  gwCurrentDSType = null;
+  var content = document.getElementById('page-target-detail-content');
+  if(content) content.innerHTML = renderTargetDetail();
+  setTimeout(function() {
+    configuredDataSources[idx].status = 'ready';
+    var row = document.getElementById('td-ds-row-' + idx);
+    if(row) row.cells[2].innerHTML = '<span style="display:inline-flex;align-items:center;gap:4px;color:#1E8900;font-weight:500;font-size:13px"><svg width="13" height="13" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#E8F5E9" stroke="#1E8900" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#1E8900" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Ready</span>';
+  }, 3000);
 }
 
 function backToGateways() {
   // Hide ALL KB overlay pages first
-  ['page-kb','page-kb-create','page-td-kb-create','page-kb-detail'].forEach(function(id){
+  ['page-kb','page-kb-create','page-td-kb-create','page-kb-detail','page-target-detail'].forEach(function(id){
     var el = document.getElementById(id);
     if(el) el.style.display = 'none';
   });
@@ -3699,6 +4076,206 @@ function toggleGWMetadata() {
   </div>
 
 </div>
+</div>
+
+<div id="page-target-detail" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#f8f8f8;z-index:54;overflow-y:auto">
+  <div class="sidebar" style="position:fixed;top:0;left:0;bottom:0;width:230px;z-index:60;overflow-y:auto">
+    <div style="padding:12px 16px;border-bottom:1px solid #e0e0e0;font-size:14px;font-weight:700;color:var(--aws-text)">Amazon Bedrock AgentCore</div>
+    <div class="sb-section">Discover</div>
+    <a class="sb-item sub">Overview</a>
+    <div class="sb-section">Build</div>
+    <a class="sb-item sub" onclick="backToGateways();hideTDKBCreateForm();hideKBDetail();hideKBCreateForm();" style="cursor:pointer">Runtime</a>
+    <a class="sb-item sub active" onclick="showGatewayDetail()" style="cursor:pointer">Gateways</a>
+    <a class="sb-item sub" onclick="showKBPage();hideTDKBCreateForm();hideKBDetail();hideKBCreateForm();" style="cursor:pointer">Knowledge Bases</a>
+    <a class="sb-item sub">Memory</a>
+    <a class="sb-item sub">Policy <span class="sb-badge">New</span></a>
+    <a class="sb-item sub">Identity</a>
+    <div class="sb-section">Built-in tools</div>
+    <a class="sb-item sub">Browser</a>
+    <a class="sb-item sub">Code Interpreter</a>
+    <div class="sb-section">Test</div>
+    <a class="sb-item sub">Runtime playground</a>
+    <div class="sb-section">Assess</div>
+    <a class="sb-item sub">Observability</a>
+    <a class="sb-item sub">Evaluations</a>
+  </div>
+  <div style="margin-left:230px;padding:24px 40px 40px 40px" id="page-target-detail-content"></div>
+</div>
+
+<!-- Admin UI overlay -->
+<div id="page-admin-ui" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:60;overflow-y:auto;background:#f0f0f0;font-family:-apple-system,'Helvetica Neue',Arial,sans-serif">
+  <!-- Teradata-branded header -->
+  <div style="background:#FF6B00;padding:0 32px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.2)">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="color:#fff;font-size:18px;font-weight:900;letter-spacing:-0.5px">Teradata</span>
+      <span style="color:rgba(255,255,255,.6);font-size:18px">|</span>
+      <span style="color:#fff;font-size:14px;font-weight:600">Fabric Universal Connector — Admin UI</span>
+    </div>
+    <button onclick="hideAdminUI()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 18px;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer">&#8592; Exit to AgentCore</button>
+  </div>
+  <!-- Sub-nav -->
+  <div style="background:#fff;border-bottom:1px solid #d0d0d0;padding:0 32px;display:flex;gap:0">
+    <div id="admin-tab-overview" onclick="adminTab('overview')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid #FF6B00;color:#FF6B00">Overview</div>
+    <div id="admin-tab-software" onclick="adminTab('software')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:#555">Software Management</div>
+    <div id="admin-tab-observability" onclick="adminTab('observability')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:#555">Observability</div>
+    <div id="admin-tab-usage" onclick="adminTab('usage')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:#555">Usage</div>
+    <div id="admin-tab-identity" onclick="adminTab('identity')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:#555">Identity Provider</div>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:32px 32px 60px">
+    <div id="admin-ui-content"></div>
+  </div>
+</div>
+
+<script>
+function showAdminUI(tab) {
+  document.getElementById('page-admin-ui').style.display = 'block';
+  adminTab(tab || 'overview');
+}
+function hideAdminUI() {
+  document.getElementById('page-admin-ui').style.display = 'none';
+}
+function adminTab(tab) {
+  ['overview','software','observability','usage','identity'].forEach(function(t) {
+    var el = document.getElementById('admin-tab-' + t);
+    if(el) {
+      el.style.borderBottomColor = t === tab ? '#FF6B00' : 'transparent';
+      el.style.color = t === tab ? '#FF6B00' : '#555';
+    }
+  });
+  var content = tab === 'software' ? renderAdminSoftware()
+    : tab === 'overview' ? renderAdminOverview()
+    : renderAdminWIP(tab);
+  document.getElementById('admin-ui-content').innerHTML = content;
+}
+
+function renderAdminOverview() {
+  var statusDot = '<span style="display:inline-flex;align-items:center;gap:6px;color:#1a7a2e;font-weight:600"><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#22c55e"/></svg>Running</span>';
+  var dsRows = configuredDataSources.length === 0
+    ? '<tr><td colspan="3" style="padding:24px;text-align:center;color:#888;font-size:13px">No data sources configured.</td></tr>'
+    : configuredDataSources.map(function(c,i) {
+        return '<tr style="border-bottom:1px solid #e8e8e8">'
+          + '<td style="padding:10px 16px;font-weight:500;color:#333">' + c.name + '</td>'
+          + '<td style="padding:10px 16px"><span style="display:inline-flex;align-items:center;gap:5px;background:#f5f5f5;border:1px solid #ddd;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600"><span style="width:16px;height:16px;border-radius:3px;background:' + c.color + ';color:#fff;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">' + c.icon + '</span>' + c.label + '</span></td>'
+          + '<td style="padding:10px 16px"><span style="color:#1a7a2e;font-weight:500;font-size:13px">&#10003; Active</span></td>'
+          + '</tr>';
+      }).join('');
+
+  return '<div style="margin-bottom:24px">'
+    + '<h2 style="font-size:20px;font-weight:700;color:#1a1a1a;margin:0 0 4px">Teradata Fabric Universal Connector</h2>'
+    + '<div style="font-size:13px;color:#666">Deployed instance &mdash; us-east-2 &bull; m5.2xlarge &bull; CloudFormation stack: cfn-teradata-uc-prod</div>'
+    + '</div>'
+
+    + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:28px">'
+    + adminStatCard('Status', statusDot)
+    + adminStatCard('Software version', '<span style="font-weight:700;color:' + (tucVersion !== tucLatestVersion ? '#c0392b' : '#1a7a2e') + '">' + tucVersion + '</span>' + (tucVersion !== tucLatestVersion ? ' <span style="font-size:11px;color:#c0392b">(update available)</span>' : ''))
+    + adminStatCard('Data sources', configuredDataSources.length + ' configured')
+    + '</div>'
+
+    + '<div style="background:#fff;border:1px solid #ddd;border-radius:8px;overflow:hidden;margin-bottom:24px">'
+    + '<div style="padding:14px 20px;border-bottom:1px solid #e8e8e8;font-size:15px;font-weight:700;color:#1a1a1a">Data Sources</div>'
+    + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+    + '<thead><tr style="background:#fafafa;border-bottom:1px solid #e8e8e8">'
+    + '<th style="text-align:left;padding:9px 16px;font-weight:700;color:#333">Name</th>'
+    + '<th style="text-align:left;padding:9px 16px;font-weight:700;color:#333">Type</th>'
+    + '<th style="text-align:left;padding:9px 16px;font-weight:700;color:#333">Status</th>'
+    + '</tr></thead><tbody>' + dsRows + '</tbody></table></div>'
+
+    + '<div style="background:#fff;border:1px solid #ddd;border-radius:8px;overflow:hidden">'
+    + '<div style="padding:14px 20px;border-bottom:1px solid #e8e8e8;font-size:15px;font-weight:700;color:#1a1a1a">Schema Details</div>'
+    + '<div style="padding:20px">'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;font-size:13px">'
+    + adminDetailField('Query execution timeout', '60 seconds')
+    + adminDetailField('Table &amp; column descriptions', '0 annotations')
+    + adminDetailField('Table &amp; column inclusions', '0 rules')
+    + adminDetailField('Exclusions', '0 rules')
+    + adminDetailField('Curated queries', '0 entries')
+    + '</div></div></div>';
+}
+
+function adminStatCard(label, valueHtml) {
+  return '<div style="background:#fff;border:1px solid #ddd;border-radius:8px;padding:18px 20px">'
+    + '<div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">' + label + '</div>'
+    + '<div style="font-size:16px;color:#1a1a1a">' + valueHtml + '</div>'
+    + '</div>';
+}
+function adminDetailField(label, val) {
+  return '<div><div style="font-weight:700;color:#333;margin-bottom:3px;font-size:12px">' + label + '</div><div style="color:#666">' + val + '</div></div>';
+}
+
+function renderAdminSoftware() {
+  var upToDate = tucVersion === tucLatestVersion;
+  var changelog = '<ul style="margin:0;padding-left:18px;font-size:13px;color:#444;line-height:1.8">'
+    + '<li><strong>2.4.1</strong> &mdash; Performance improvements for large federated queries; TLS 1.3 support</li>'
+    + '<li>Fixed memory leak in connection pool under high concurrency</li>'
+    + '<li>Updated JDBC drivers for BigQuery and Databricks connectors</li>'
+    + '<li>Admin UI: improved data source health indicators</li>'
+    + '</ul>';
+
+  return '<div style="background:#fff;border:1px solid #ddd;border-radius:8px;padding:28px;max-width:700px">'
+    + '<div style="font-size:18px;font-weight:700;color:#1a1a1a;margin-bottom:20px">Software Management</div>'
+
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;margin-bottom:24px">'
+    + '<div style="padding:16px 20px;border-right:1px solid #e0e0e0;background:#fafafa">'
+    + '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Installed version</div>'
+    + '<div id="admin-installed-ver" style="font-size:22px;font-weight:700;color:' + (upToDate ? '#1a7a2e' : '#c0392b') + '">' + tucVersion + '</div>'
+    + '<div style="font-size:12px;color:#888;margin-top:4px" id="admin-ver-status">' + (upToDate ? '&#10003; Up to date' : '&#9650; Update available') + '</div>'
+    + '</div>'
+    + '<div style="padding:16px 20px">'
+    + '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Latest version</div>'
+    + '<div style="font-size:22px;font-weight:700;color:#1a1a1a">' + tucLatestVersion + '</div>'
+    + '<div style="font-size:12px;color:#888;margin-top:4px">Released May 12, 2026</div>'
+    + '</div></div>'
+
+    + '<div style="margin-bottom:20px">'
+    + '<div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:10px">What\'s new in ' + tucLatestVersion + '</div>'
+    + changelog
+    + '</div>'
+
+    + (upToDate
+        ? '<div style="display:flex;align-items:center;gap:8px;background:#f0faf3;border:1px solid #a8e6ba;border-radius:6px;padding:12px 16px;font-size:13px;color:#1a7a2e;font-weight:600"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#22c55e"/><path d="M5 8l2.5 2.5L11 5.5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Software is up to date</div>'
+        : '<div style="display:flex;gap:12px;align-items:center">'
+          + '<button id="admin-upgrade-btn" onclick="performUpgrade()" style="background:#FF6B00;color:#fff;border:none;border-radius:4px;padding:9px 28px;font-size:14px;font-weight:700;cursor:pointer">Upgrade to ' + tucLatestVersion + '</button>'
+          + '<div id="admin-upgrade-status" style="font-size:13px;color:#666"></div>'
+          + '</div>')
+    + '</div>';
+}
+
+function renderAdminWIP(tab) {
+  var labels = { observability: 'Observability', usage: 'Usage', identity: 'Identity Provider' };
+  return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 0;color:#888">'
+    + '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin-bottom:20px"><rect width="48" height="48" rx="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1.5"/><text x="24" y="32" text-anchor="middle" font-size="22" font-family="Arial">🚧</text></svg>'
+    + '<div style="font-size:18px;font-weight:700;color:#333;margin-bottom:8px">' + (labels[tab] || tab) + '</div>'
+    + '<div style="font-size:14px;color:#aaa">Work in progress</div>'
+    + '</div>';
+}
+
+function performUpgrade() {
+  var btn = document.getElementById('admin-upgrade-btn');
+  var status = document.getElementById('admin-upgrade-status');
+  if(!btn) return;
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  btn.textContent = 'Upgrading…';
+
+  // Progress messages
+  var messages = ['Downloading update package…', 'Stopping services…', 'Applying update…', 'Restarting services…', 'Verifying installation…'];
+  var i = 0;
+  status.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 13 13" style="animation:spin .8s linear infinite"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#FF6B00" stroke-width="2"/><path d="M6.5 1.5 A5 5 0 0 1 11.5 6.5" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/></svg>' + messages[0] + '</span>';
+  var interval = setInterval(function() {
+    i++;
+    if(i < messages.length) {
+      status.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 13 13" style="animation:spin .8s linear infinite"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#FF6B00" stroke-width="2"/><path d="M6.5 1.5 A5 5 0 0 1 11.5 6.5" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/></svg>' + messages[i] + '</span>';
+    } else {
+      clearInterval(interval);
+      tucVersion = tucLatestVersion;
+      // Re-render software tab and target detail
+      document.getElementById('admin-ui-content').innerHTML = renderAdminSoftware();
+      var ptd = document.getElementById('page-target-detail-content');
+      if(ptd) ptd.innerHTML = renderTargetDetail();
+    }
+  }, 1000);
+}
+</script>
 
 </body>
 </html>
