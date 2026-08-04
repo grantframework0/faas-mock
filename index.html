@@ -16,6 +16,9 @@
   --aws-muted: #687078;
   --aws-border: #d5dbdb;
   --ok: #1d8102;
+  --topbar: #0f1b2a;
+  --btn-orange: #ec7211;
+  --btn-orange-hover: #c05601;
 }
 
 body {
@@ -27,496 +30,295 @@ body {
   flex-direction: column;
 }
 
-.workspace {
-  width: min(1280px, 100% - 20px);
-  margin: 16px auto;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-
-.left-rail {
-  width: 250px;
-  background: #fff;
-  border: 1px solid #e4e7e7;
-  border-radius: 6px;
-  padding: 12px;
-  position: sticky;
-  top: 12px;
-}
-
-.rail-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--aws-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-bottom: 8px;
-}
-
-.app-btn {
-  width: 100%;
-  text-align: left;
-  height: auto;
-  border: 1px solid #d5dbdb;
-  border-radius: 6px;
-  background: #fff;
-  padding: 10px 12px;
-  margin-bottom: 8px;
-  font-size: 13px;
-}
-
-.app-btn.active {
-  border-color: var(--aws-blue);
-  background: #f0f8ff;
-  color: var(--aws-blue);
-  font-weight: 700;
-}
-
-.app-btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.app-sub-btn {
-  width: calc(100% - 16px);
-  margin-left: 16px;
-  margin-top: -2px;
-  margin-bottom: 8px;
-  border: 1px solid #d5dbdb;
-  border-radius: 6px;
-  padding: 8px 10px;
-  text-align: left;
-  background: #fff;
-  font-size: 12px;
-  color: var(--aws-text);
-}
-
-.app-sub-btn.active {
-  border-color: var(--aws-blue);
-  background: #f0f8ff;
-  color: var(--aws-blue);
-  font-weight: 700;
-}
-
-.app-sub-btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.app-note {
-  font-size: 12px;
-  color: var(--aws-muted);
-  line-height: 1.4;
-}
-
-.topbar {
-  height: 42px;
-  background: var(--aws-navy);
+/* ===== AWS console top bar ===== */
+.aws-nav {
+  height: 52px;
+  background: var(--topbar);
   color: #d5dbdb;
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  gap: 14px;
+  padding: 0 18px;
+  gap: 16px;
+  flex-shrink: 0;
 }
-
-.logo {
-  color: var(--aws-orange);
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+.aws-nav .aws-wordmark { color: var(--aws-orange); font-size: 22px; font-weight: 800; letter-spacing: -1px; }
+.aws-nav .nav-icon {
+  width: 30px; height: 30px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center;
+  font-size: 15px; color: #b6bec7; flex-shrink: 0;
 }
-
-.topbar strong { color: #fff; }
-
-.breadcrumb {
-  background: #fff;
-  border-bottom: 1px solid #e7e7e7;
-  font-size: 13px;
-  color: var(--aws-muted);
-  padding: 9px 20px;
-}
-
-main {
-  width: min(1080px, 100% - 32px);
-  margin: 0;
-  display: grid;
-  gap: 14px;
-  flex: 1;
-}
-
-.card {
-  background: var(--aws-panel);
-  border: 1px solid #e4e7e7;
-  border-radius: 6px;
-}
-
-.head {
-  padding: 16px 18px;
-  border-bottom: 1px solid #e8eaea;
-}
-
-.title {
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-
-.sub {
-  font-size: 13px;
-  color: var(--aws-muted);
-}
-
-.stepper {
-  padding: 14px 18px;
+.aws-nav .nav-search {
+  flex: 0 1 560px;
+  height: 32px;
+  background: #1b2836;
+  border: 1px solid #3a4552;
+  border-radius: 4px;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
-  border-bottom: 1px solid #e8eaea;
-}
-
-.step {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--aws-muted);
-}
-
-.dot {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  background: #eaeded;
-  color: var(--aws-muted);
-}
-
-.step.active { color: var(--aws-text); font-weight: 700; }
-.step.active .dot { background: var(--aws-blue); color: #fff; }
-.step.done { color: var(--ok); }
-.step.done .dot { background: var(--ok); color: #fff; }
-.connector { width: 30px; height: 1px; background: #d5dbdb; }
-
-.content {
-  padding: 20px;
-}
-
-h2 {
-  font-size: 19px;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.small {
-  color: var(--aws-muted);
-  font-size: 13px;
-  margin-bottom: 14px;
-}
-
-.product {
-  border: 1px solid var(--aws-border);
-  border-radius: 8px;
-  padding: 16px;
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 14px;
-}
-
-.badge {
-  width: 56px;
-  height: 56px;
-  border-radius: 10px;
-  background: #ff6b00;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 800;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.product h3 {
-  font-size: 18px;
-  margin-bottom: 4px;
-}
-
-.meta {
-  font-size: 12px;
-  color: var(--aws-muted);
-  margin-bottom: 12px;
-}
-
-.notice {
-  background: #fff8e6;
-  border: 1px solid #f0c36a;
-  border-radius: 4px;
-  padding: 12px;
-  margin-bottom: 12px;
-  font-size: 13px;
-}
-
-.actions {
-  margin-top: 16px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-button {
-  height: 34px;
-  border-radius: 4px;
-  border: 1px solid #879196;
-  background: #fff;
-  color: var(--aws-text);
-  padding: 0 16px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-button.primary {
-  background: var(--aws-orange);
-  border-color: #e48a00;
-  color: #fff;
-  font-weight: 700;
-}
-
-button.primary:hover { background: #e48a00; }
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.field {
-  display: grid;
-  gap: 6px;
-}
-
-.field label {
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.field input,
-.field select {
-  height: 34px;
-  border: 1px solid #aab7b8;
-  border-radius: 4px;
   padding: 0 10px;
+  color: #8b96a0;
   font-size: 13px;
+  position: relative;
 }
-
-.field.full { grid-column: 1 / -1; }
-
-.tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.tab {
-  border: 1px solid var(--aws-border);
-  padding: 7px 11px;
-  border-radius: 5px;
-  background: #fff;
+.aws-nav .nav-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #d5dbdb;
   font-size: 13px;
-  cursor: pointer;
+  height: 100%;
 }
-
-.tab.active {
-  border-color: var(--aws-blue);
-  color: var(--aws-blue);
-  font-weight: 700;
+.aws-nav .nav-search input::placeholder { color: #8b96a0; }
+.aws-nav .nav-search.search-hint {
+  border-color: var(--btn-orange);
+  border-width: 2px;
+  animation: searchHintPulse 1.2s ease-in-out infinite;
 }
-
-.table {
+@keyframes searchHintPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236, 114, 17, 0.8); }
+  50% { box-shadow: 0 0 0 16px rgba(236, 114, 17, 0); }
+}
+.search-dropdown {
+  position: absolute;
+  top: 40px;
+  left: 0;
   width: 100%;
-  border-collapse: collapse;
+  background: #16222d;
+  border: 1px solid #3a4552;
+  border-radius: 4px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+  overflow: hidden;
+  display: none;
+  z-index: 500;
+}
+.search-dropdown.open { display: block; }
+.search-dropdown .sd-item {
+  padding: 9px 14px;
   font-size: 13px;
-}
-
-.table th,
-.table td {
-  border: 1px solid #e7eaea;
-  text-align: left;
-  padding: 9px 10px;
-}
-
-.table th {
-  background: #f7f8f8;
-  color: var(--aws-muted);
-  font-size: 12px;
-}
-
-.ok {
-  color: var(--ok);
-  font-weight: 700;
-}
-
-.status-progress {
-  display: inline-flex;
+  color: #d5dbdb;
+  cursor: pointer;
+  display: flex;
   align-items: center;
   gap: 8px;
-  color: #0f5f96;
-  font-weight: 600;
+  border-bottom: 1px solid #223140;
+}
+.search-dropdown .sd-item:last-child { border-bottom: none; }
+.search-dropdown .sd-item:hover { background: #223140; }
+.search-dropdown .sd-item.sd-top { color: #fff; font-weight: 700; background: #1e2f3f; }
+.search-dropdown .sd-item .sd-hint { margin-left: auto; font-size: 11px; color: #8b96a0; font-weight: 400; }
+.aws-nav .nav-spacer { flex: 1; }
+.aws-nav .nav-bell { position: relative; }
+.aws-nav .nav-bell .dot {
+  position: absolute; top: 2px; right: 2px; width: 15px; height: 15px; border-radius: 50%;
+  background: #d13212; color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
+.aws-nav .nav-region {
+  border: 1px solid #3a4552; border-radius: 4px; padding: 5px 10px; font-size: 12px; color: #d5dbdb; white-space: nowrap;
+}
+.aws-nav .nav-account { font-size: 12px; color: #d5dbdb; text-align: right; line-height: 1.3; white-space: nowrap; }
+
+/* Breadcrumb bar under top nav */
+.crumbbar {
+  background: #fff;
+  border-bottom: 1px solid #e9ebed;
+  font-size: 13px;
+  padding: 11px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.crumbbar .hamburger { color: var(--aws-blue); font-size: 15px; cursor: pointer; margin-right: 2px; }
+.crumbbar .crumb-link { color: var(--aws-blue); cursor: pointer; text-decoration: none; }
+.crumbbar .crumb-link:hover { text-decoration: underline; }
+.crumbbar .crumb-sep { color: var(--aws-muted); }
+.crumbbar .crumb-current { color: var(--aws-muted); font-weight: 500; }
+
+/* ===== shell layouts ===== */
+.mkt-shell { display: flex; align-items: flex-start; flex: 1; min-height: 0; }
+.mkt-nav {
+  width: 232px; flex-shrink: 0; background: #fff; border-right: 1px solid #e9ebed;
+  padding: 22px 20px; align-self: stretch;
+}
+.mkt-nav .mkt-nav-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.mkt-nav .mkt-nav-title .collapse-ic { color: var(--aws-muted); font-size: 14px; cursor: pointer; }
+.mkt-nav a.mkt-link { display: block; padding: 7px 0; font-size: 14px; color: var(--aws-text); cursor: pointer; text-decoration: none; }
+.mkt-nav a.mkt-link.active { color: var(--aws-blue); font-weight: 700; }
+.mkt-nav a.mkt-link.mkt-sub { padding: 6px 0 6px 16px; font-size: 13px; color: #545b64; }
+.mkt-nav .mkt-tree-toggle { display: flex; align-items: center; gap: 6px; padding: 7px 0; font-size: 14px; color: var(--aws-text); cursor: pointer; }
+
+.mkt-main { flex: 1; padding: 28px 40px 40px; min-width: 0; }
+.mkt-main.narrow { max-width: 1100px; }
+
+.mkt-card { background: #fff; border: 1px solid #d5dbdb; border-radius: 8px; padding: 24px 28px; margin-bottom: 20px; }
+.mkt-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+.mkt-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+.mkt-small { color: var(--aws-muted); font-size: 13px; }
+
+/* Buttons (real-UI style) */
+.btn2 {
+  height: 36px; border-radius: 4px; border: 1px solid #879196; background: #fff; color: var(--aws-text);
+  padding: 0 18px; font-size: 14px; cursor: pointer;
+}
+.btn2.orange { background: var(--btn-orange); border-color: var(--btn-orange); color: #fff; font-weight: 700; }
+.btn2.orange:hover { background: var(--btn-orange-hover); border-color: var(--btn-orange-hover); }
+.btn2.orange:disabled { background: #e9ebed; border-color: #e9ebed; color: #8b96a0; cursor: not-allowed; }
+.btn2.outline:hover { background: #f2f3f3; }
+.btn2:disabled { opacity: 0.5; cursor: not-allowed; }
+.link-btn { background: none; border: none; color: var(--aws-blue); font-size: 14px; cursor: pointer; padding: 0; }
+.link-btn:hover { text-decoration: underline; }
+
+/* Product search tiles */
+.tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+.prod-tile {
+  border: 1px solid #d5dbdb; border-radius: 6px; padding: 16px; background: #fff; cursor: pointer;
+  transition: border-color .1s, background .1s;
+}
+.prod-tile:hover { border-color: var(--aws-blue); }
+.prod-tile.selected { border: 2px solid var(--aws-blue); background: #f0f8ff; padding: 15px; }
+.prod-tile .tile-logo-box {
+  width: 100%; height: 64px; border: 1px solid #e9ebed; border-radius: 4px; display: flex; align-items: center;
+  justify-content: center; margin-bottom: 10px; background: #fff; overflow: hidden;
+}
+.prod-tile .tile-name { font-size: 14px; font-weight: 700; color: var(--aws-text); margin-bottom: 4px; line-height: 1.3; }
+.prod-tile .tile-vendor { font-size: 12px; color: var(--aws-muted); margin-bottom: 6px; }
+.prod-tile .tile-desc { font-size: 12px; color: var(--aws-muted); line-height: 1.4; }
+
+.td-logo-text { color: #ff6b00; font-weight: 900; font-size: 15px; letter-spacing: -0.5px; }
+.td-logo-text.lg { font-size: 26px; }
+
+/* Product detail page */
+.prod-detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.prod-logo-lg {
+  width: 130px; height: 100px; border: 1px solid #e9ebed; border-radius: 6px; display: flex; align-items: center;
+  justify-content: center; background: #fff; flex-shrink: 0;
+}
+.prod-detail-body { display: flex; gap: 18px; }
+.prod-title-block h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+.prod-title-block .sold-by { font-size: 13px; margin-bottom: 10px; }
+.prod-title-block .sold-by a { color: var(--aws-blue); text-decoration: none; }
+.deployed-badge {
+  display: inline-block; border: 1px solid var(--btn-orange); color: var(--btn-orange); font-size: 12px;
+  font-weight: 700; padding: 3px 10px; border-radius: 3px; margin-bottom: 12px;
+}
+.prod-tabs { display: flex; gap: 28px; border-bottom: 1px solid #e9ebed; margin: 20px 0 0; }
+.prod-tab { padding: 10px 2px; font-size: 14px; font-weight: 700; color: #545b64; cursor: pointer; border-bottom: 3px solid transparent; }
+.prod-tab.active { color: var(--aws-blue); border-bottom-color: var(--aws-blue); }
+.prod-video-box {
+  background: #16324f; height: 260px; border-radius: 4px; display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.85); cursor: pointer; font-size: 40px;
+}
+.two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start; }
+.two-col ul { padding-left: 18px; font-size: 14px; line-height: 1.7; }
+
+/* Key/value grids used across purchase options / stack info */
+.kv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 24px; }
+.kv-item .kv-label { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.kv-item .kv-value { font-size: 14px; color: var(--aws-text); }
+.kv-item .kv-value a { color: var(--aws-blue); }
+.divider2 { height: 1px; background: #e9ebed; margin: 18px 0; }
+
+/* Sticky purchase-options footer */
+.sticky-foot {
+  background: #fff; border-top: 1px solid #e9ebed; padding: 16px 40px; display: flex;
+  justify-content: space-between; align-items: center; flex-shrink: 0;
+}
+
+/* Manage subscriptions page */
+.subs-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 6px; }
+.subs-head h1 { font-size: 24px; font-weight: 700; }
+.cf-template-badge { display: inline-block; background: #eaeded; color: #545b64; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 3px; margin-left: 10px; vertical-align: middle; }
+.subs-actions { display: flex; gap: 10px; flex-shrink: 0; }
+.mini-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* CloudFormation wizard */
+.cf-shell { display: flex; gap: 32px; padding: 28px 40px 60px; align-items: flex-start; }
+.cf-steps { width: 220px; flex-shrink: 0; }
+.cf-step-item { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; font-size: 13px; color: var(--aws-muted); }
+.cf-step-num {
+  width: 22px; height: 22px; border-radius: 50%; background: #e9ebed; color: var(--aws-muted); display: flex;
+  align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.cf-step-item.active { color: var(--aws-text); font-weight: 700; }
+.cf-step-item.active .cf-step-num { background: var(--aws-blue); color: #fff; }
+.cf-step-item.done .cf-step-num { background: var(--ok); color: #fff; }
+.cf-main { flex: 1; max-width: 900px; min-width: 0; }
+.cf-main .mkt-card { margin-bottom: 20px; }
+
+.radio-line { display: flex; gap: 10px; margin: 12px 0; align-items: flex-start; }
+.radio-line label { font-size: 13px; font-weight: 700; }
+.radio-sub { font-size: 12px; color: var(--aws-muted); margin-top: 2px; line-height: 1.5; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 13px; font-weight: 700; }
+.field input, .field select {
+  height: 34px; border: 1px solid #aab7b8; border-radius: 4px; padding: 0 10px; font-size: 13px;
+}
+.field.full { grid-column: 1 / -1; }
+.param-group-title { font-size: 14px; font-weight: 700; margin: 18px 0 10px; padding-top: 14px; border-top: 1px solid #e9ebed; }
+.param-group-title:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+.wiz-actions { margin-top: 22px; display: flex; justify-content: flex-end; gap: 10px; }
+
+/* Stack info page */
+.si-shell { display: flex; align-items: flex-start; flex: 1; min-height: 0; }
+.si-stacks { width: 300px; flex-shrink: 0; background: #fff; border-right: 1px solid #e9ebed; padding: 18px; align-self: stretch; }
+.si-stacks h3 { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+.si-search { width: 100%; height: 32px; border: 1px solid #aab7b8; border-radius: 4px; padding: 0 10px; font-size: 13px; margin-bottom: 12px; }
+.si-stack-row { padding: 10px 8px; border-radius: 4px; cursor: pointer; font-size: 13px; margin-bottom: 2px; }
+.si-stack-row .sn { color: var(--aws-blue); font-weight: 600; display: block; margin-bottom: 2px; }
+.si-stack-row .ss { color: var(--ok); font-size: 12px; }
+.si-stack-row.selected { background: #f0f8ff; border-left: 3px solid var(--aws-blue); padding-left: 6px; }
+
+.si-detail { flex: 1; padding: 24px 32px 48px; min-width: 0; }
+.si-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 10px; }
+.si-head h1 { font-size: 22px; font-weight: 700; }
+.si-head-actions { display: flex; gap: 8px; }
+.si-subline { font-size: 12px; color: var(--aws-muted); margin-bottom: 18px; }
+.si-tabs { display: flex; gap: 0; border-bottom: 1px solid #e9ebed; margin-bottom: 22px; overflow-x: auto; }
+.si-tab { padding: 10px 16px; font-size: 13px; font-weight: 700; color: var(--aws-muted); cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
+.si-tab.active { color: var(--aws-blue); border-bottom-color: var(--aws-blue); }
+.si-tab.tab-hint { border-radius: 4px 4px 0 0; animation: tabHintPulse 1.2s ease-in-out infinite; }
+@keyframes tabHintPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236, 114, 17, 0.7); background: rgba(236, 114, 17, 0.08); }
+  50% { box-shadow: 0 0 0 10px rgba(236, 114, 17, 0); background: rgba(236, 114, 17, 0.2); }
+}
+
+.status-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 3px; }
+.status-badge.complete { background: #e8f5e9; color: var(--ok); }
+.status-badge.progress { background: #fff8e6; color: #8c6d00; }
+
+.table2 { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table2 th, .table2 td { border-bottom: 1px solid #e9ebed; text-align: left; padding: 10px 12px; }
+.table2 th { color: var(--aws-muted); font-size: 12px; font-weight: 700; background: #fafafa; }
+.si-empty { color: var(--aws-muted); font-size: 13px; padding: 30px 0; text-align: center; }
+
+.out2 a { color: var(--aws-blue); text-decoration: none; }
+.out2 a:hover { text-decoration: underline; }
+.out2 a.admin-ui-hint {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  animation: linkHintPulse 1.2s ease-in-out infinite;
+}
+@keyframes linkHintPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236, 114, 17, 0.8); background: rgba(236, 114, 17, 0.12); }
+  50% { box-shadow: 0 0 0 8px rgba(236, 114, 17, 0); background: rgba(236, 114, 17, 0.24); }
 }
 
 .spinner {
-  width: 14px;
-  height: 14px;
-  border: 2px solid #c7d2db;
-  border-top-color: var(--aws-blue);
-  border-radius: 999px;
-  animation: spin 0.8s linear infinite;
+  width: 14px; height: 14px; border: 2px solid #c7d2db; border-top-color: var(--aws-blue); border-radius: 999px;
+  animation: spin 0.8s linear infinite; display: inline-block;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.out a {
-  color: var(--aws-blue);
-  text-decoration: none;
-}
-
-.out a:hover {
-  text-decoration: underline;
-}
-
-.out {
-  border: 1px solid #d5e7fb;
-  background: #f5faff;
-  border-radius: 6px;
-  padding: 12px;
-}
-
-.out-row {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #dfebfb;
-  padding: 7px 0;
-  font-size: 13px;
-}
-
-.out-row:last-child { border-bottom: none; }
-
-.panel {
-  border: 1px solid #e4e7e7;
-  border-radius: 6px;
-  margin-top: 14px;
-}
-
-.panel-head {
-  border-bottom: 1px solid #e8eaea;
-  padding: 12px 14px;
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.panel-body {
-  padding: 14px;
-}
-
-.hint {
-  font-size: 12px;
-  color: var(--aws-muted);
-  margin-top: 3px;
-}
-
-.radio-line {
-  display: flex;
-  gap: 10px;
-  margin: 10px 0;
-  align-items: flex-start;
-}
-
-.radio-line label {
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.radio-sub {
-  font-size: 12px;
-  color: var(--aws-muted);
-  margin-top: 2px;
-}
-
-.target-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin: 8px 0 14px;
-}
-
-.target-tile {
-  border: 1px solid #d5dbdb;
-  border-radius: 6px;
-  padding: 10px;
-  background: #fff;
-}
-
-.target-tile.active {
-  border: 2px solid var(--aws-blue);
-  background: #f0f8ff;
-}
-
-.tile-title {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.tile-sub {
-  font-size: 12px;
-  color: var(--aws-muted);
-  line-height: 1.35;
-}
-
-.callout {
-  border-left: 3px solid var(--aws-blue);
-  background: #e8f4fd;
-  padding: 10px 12px;
-  border-radius: 0 4px 4px 0;
-  font-size: 12px;
-  color: #0b3f75;
-  margin: 10px 0 12px;
-}
-
-.status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #1d8102;
-  font-weight: 700;
-  background: #e8f5e9;
-  border: 1px solid #b8ddb9;
-  border-radius: 12px;
-  padding: 2px 9px;
-}
-
-.mini-check {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: #1d8102;
-}
-
-@media (max-width: 760px) {
-  .workspace { width: calc(100% - 12px); margin: 10px auto; flex-direction: column; }
-  .left-rail { width: 100%; position: static; }
-  main { width: 100%; }
-  .grid { grid-template-columns: 1fr; }
-  .target-grid { grid-template-columns: 1fr; }
-  .product { grid-template-columns: 1fr; }
-  .actions { justify-content: flex-start; }
+@media (max-width: 900px) {
+  .mkt-shell, .si-shell { flex-direction: column; }
+  .mkt-nav, .si-stacks { width: 100%; border-right: none; border-bottom: 1px solid #e9ebed; }
+  .cf-shell { flex-direction: column; padding: 20px; }
+  .two-col, .kv-grid, .grid2, .mini-cards { grid-template-columns: 1fr; }
 }
 
 /* ===== agentcore-flow.html (embedded) ===== */
@@ -701,278 +503,584 @@ textarea.form-input{height:72px;resize:vertical;padding:7px 10px}
 </style>
 </head>
 <body>
-  <div class="topbar">
-    <span class="logo">aws</span>
-    <span id="topbar-path">AWS Marketplace -> <strong>Teradata Fabric Universal Connector</strong></span>
+  <div class="aws-nav">
+    <span class="aws-wordmark">aws</span>
+    <span class="nav-icon">&#9670;</span>
+    <span class="nav-icon">&#9638;</span>
+    <div class="nav-search" id="nav-search-box">&#128269;<input id="global-search" placeholder="Search" onkeydown="handleGlobalSearch(event)" oninput="clearSearchHint()" onfocus="clearSearchHint(); showSearchDropdown()"/><span style="font-size:11px;color:#5f6b7a">[Option+S]</span>
+      <div class="search-dropdown" id="search-dropdown">
+        <div class="sd-item sd-top" onmousedown="event.preventDefault(); selectSearchSuggestion('AgentCore')">&#128269; <span>AgentCore</span><span class="sd-hint">Amazon Bedrock AgentCore</span></div>
+        <div class="sd-item" onmousedown="event.preventDefault(); selectSearchSuggestion('CloudFormation')">&#128269; <span>CloudFormation</span></div>
+        <div class="sd-item" onmousedown="event.preventDefault(); selectSearchSuggestion('Lambda')">&#128269; <span>Lambda</span></div>
+        <div class="sd-item" onmousedown="event.preventDefault(); selectSearchSuggestion('S3')">&#128269; <span>S3</span></div>
+      </div>
+    </div>
+    <div class="nav-spacer"></div>
+    <span class="nav-icon">&gt;_</span>
+    <span class="nav-icon nav-bell">&#128276;<span class="dot">1</span></span>
+    <span class="nav-icon">?</span>
+    <span class="nav-icon">&#9881;</span>
+    <span class="nav-region">Global &#9662;</span>
+    <span class="nav-account">Developer/user@teradata.com</span>
   </div>
 
-  <div class="breadcrumb" id="breadcrumb"></div>
-
-  <div class="workspace">
-    <aside class="left-rail" id="left-rail"></aside>
-
-    <main>
-      <section class="card">
-        <div class="head">
-          <div class="title" id="page-title">Deploy Teradata Fabric Universal Connector</div>
-          <div class="sub" id="page-sub">Mock flow: Marketplace subscription to CloudFormation deployment outputs.</div>
-        </div>
-        <div class="stepper" id="stepper"></div>
-        <div class="content" id="content"></div>
-      </section>
-    </main>
-  </div>
-
-
+  <div id="app-root"></div>
 
 <script>
 let step = 1;
-let activeTab = "resources";
+let activeTab = "info";
+let prodTab = "overview";
 let deployComplete = false;
 let deployTimer = null;
-let currentApp = "marketplace";
+let currentApp = "main";
 let subscribed = false;
+let subscribing = false;
+let guideStage = 0;
+
+const stackName = "td-fabric-universal-connector-prod";
 
 const deploymentResources = [
-  {
-    name: "ECS cluster",
-    type: "AWS::ECS::Cluster",
-    physicalId: "td-universal-fabric-cluster"
-  },
-  {
-    name: "DataSource Lambda",
-    type: "AWS::Lambda::Function",
-    physicalId: "td-data-source-lambda"
-  },
-  {
-    name: "TD Universal Fabric Lambda",
-    type: "AWS::Lambda::Function",
-    physicalId: "td-universal-fabric-lambda"
-  },
-  {
-    name: "Schema Step Function",
-    type: "AWS::StepFunctions::StateMachine",
-    physicalId: "td-schema-step-function"
-  },
-  {
-    name: "Knowledge Base",
-    type: "AWS::Bedrock::KnowledgeBase",
-    physicalId: "td-enterprise-knowledge-base"
-  }
+  { logicalId: "ECSCluster", type: "AWS::ECS::Cluster", physicalId: "td-universal-fabric-cluster" },
+  { logicalId: "DataSourceLambda", type: "AWS::Lambda::Function", physicalId: "td-data-source-lambda" },
+  { logicalId: "TDUniversalFabricLambda", type: "AWS::Lambda::Function", physicalId: "td-universal-fabric-lambda" },
+  { logicalId: "SchemaStepFunction", type: "AWS::StepFunctions::StateMachine", physicalId: "td-schema-step-function" },
+  { logicalId: "KnowledgeBase", type: "AWS::Bedrock::KnowledgeBase", physicalId: "td-enterprise-knowledge-base" }
 ];
 
 const cfLambdaArn = "arn:aws:lambda:us-east-2:123456789012:function:td-universal-fabric-lambda";
 const cfKbArn = "arn:aws:bedrock:us-east-2:123456789012:knowledge-base/td-enterprise-knowledge-base";
 
-const steps = [
-  "AWS Marketplace",
-  "CloudFormation Details",
-  "Deploy",
-  "Resources and Outputs"
-];
+/* ---------- shared chrome helpers ---------- */
 
-function renderStepper() {
-  const el = document.getElementById("stepper");
-  let html = "";
+function crumbHtml(parts) {
+  let html = '<div class="crumbbar"><span class="hamburger">&#9776;</span>';
+  parts.forEach(function(p, i) {
+    if (i > 0) html += '<span class="crumb-sep">&rsaquo;</span>';
+    html += p.onclick
+      ? '<a class="crumb-link" onclick="' + p.onclick + '">' + p.label + '</a>'
+      : '<span class="crumb-current">' + p.label + '</span>';
+  });
+  html += '</div>';
+  return html;
+}
 
-  for (let i = 0; i < steps.length; i++) {
-    const n = i + 1;
-    const state = n < step ? "done" : (n === step ? "active" : "");
-    const marker = n < step ? "\u2713" : String(n);
-    html += '<div class="step ' + state + '"><span class="dot">' + marker + '</span><span>' + steps[i] + '</span></div>';
-    if (i < steps.length - 1) {
-      html += '<div class="connector"></div>';
-    }
+function marketplaceNavHtml(active) {
+  function item(label, key, onclick) {
+    return '<a class="mkt-link ' + (active === key ? "active" : "") + '" onclick="' + onclick + '">' + label + '</a>';
   }
-
-  el.innerHTML = html;
-}
-
-function renderBreadcrumb() {
-  const bc = document.getElementById("breadcrumb");
-  if (currentApp === "agentcore") {
-    bc.textContent = "Amazon Bedrock AgentCore > Gateways";
-    return;
-  }
-  if (step === 1) {
-    bc.textContent = "AWS Marketplace > Product Listings > Teradata Fabric Universal Connector";
-  } else {
-    bc.textContent = "AWS CloudFormation > Stacks > Teradata Fabric Universal Connector";
-  }
-}
-
-function renderTopBar() {
-  const el = document.getElementById("topbar-path");
-  if (currentApp === "agentcore") {
-    el.innerHTML = "Amazon Bedrock AgentCore -> <strong>Gateways</strong>";
-    return;
-  }
-  if (step === 1) {
-    el.innerHTML = "AWS Marketplace -> <strong>Teradata Fabric Universal Connector</strong>";
-  } else {
-    el.innerHTML = "AWS CloudFormation -> <strong>Teradata Fabric Universal Connector</strong>";
-  }
-}
-
-function renderRail() {
-  const rail = document.getElementById("left-rail");
-  rail.innerHTML = '' +
-    '<div class="rail-title">AWS Services</div>' +
-    '<button class="app-btn ' + (currentApp === "marketplace" ? "active" : "") + '" onclick="switchApp(\'marketplace\')">AWS Marketplace</button>' +
-    '<button class="app-btn ' + (currentApp === "cloudformation" ? "active" : "") + '" onclick="switchApp(\'cloudformation\')" ' + (subscribed ? '' : 'disabled') + '>AWS CloudFormation</button>' +
-    '<button class="app-btn ' + (currentApp === "agentcore" ? "active" : "") + '" onclick="switchApp(\'agentcore\')" ' + (deployComplete ? '' : 'disabled') + '>AWS Bedrock AgentCore</button>';
-}
-
-function switchApp(app) {
-  if (app === "marketplace") {
-    currentApp = "marketplace";
-    step = 1;
-    render();
-    return;
-  }
-  if (app === "cloudformation" && subscribed) {
-    currentApp = "cloudformation";
-    if (step < 2 || step > 4) {
-      step = 2;
-    }
-    render();
-    return;
-  }
-  if (app === "agentcore" && deployComplete) {
-    currentApp = "agentcore";
-    render();
-  }
-}
-
-function openAdminUIEmbedded() {
-  currentApp = "agentcore";
-  render();
-  showAdminUI();
-}
-
-function openAdminUIInNewWindow() {
-  window.open(window.location.pathname + "?admin=1", "_blank");
-}
-
-function onAgentCoreClose() {
-  currentApp = "cloudformation";
-  step = 4;
-  activeTab = "outputs";
-  document.querySelector(".topbar").style.display = "";
-  document.getElementById("breadcrumb").style.display = "";
-  document.querySelector(".workspace").style.display = "";
-  render();
-}
-
-function onSubscribe() {
-  subscribed = true;
-  currentApp = "cloudformation";
-  goStep(2);
-}
-
-function stepMarketplace() {
   return '' +
-    '<h2>AWS Marketplace Product</h2>' +
-    '<div class="small">Start on Marketplace with the product ready to subscribe.</div>' +
-    '<div class="product">' +
-      '<div class="badge">TD</div>' +
-      '<div>' +
-        '<h3>Teradata Fabric Universal Connector</h3>' +
-        '<div class="meta">By Teradata | Version 2.4.1 | Container + CloudFormation package</div>' +
-        '<p class="small">Connect AWS-hosted workloads to Teradata fabric services and deploy required infrastructure in your AWS account.</p>' +
-        '<div class="notice"><strong>Status:</strong> You are not subscribed to this product yet.</div>' +
-        '<div class="actions">' +
-          '<button onclick="goStep(1)">Cancel</button>' +
-          '<button class="primary" onclick="onSubscribe()">Subscribe</button>' +
+    '<aside class="mkt-nav">' +
+      '<div class="mkt-nav-title">AWS Marketplace<span class="collapse-ic">&#10094;</span></div>' +
+      item("Discover products", "discover", "goStep(1)") +
+      item("Procurement insights", "", "") +
+      item("Manage subscriptions", "manage", "goStep(4)") +
+      item("Private offers", "", "") +
+      item("Vendor Insights", "", "") +
+      '<div class="mkt-tree-toggle">&#9662; Private Marketplace</div>' +
+      '<a class="mkt-link mkt-sub">Your Private Marketplace</a>' +
+      '<a class="mkt-link mkt-sub">Approval requests</a>' +
+      '<a class="mkt-link mkt-sub">Change sets</a>' +
+      item("Notifications", "", "") +
+      item("Settings", "", "") +
+    '</aside>';
+}
+
+/* ---------- Step 1: Marketplace search ---------- */
+
+function pageSearch() {
+  const fillerTiles = [
+    { name: "Teradata VantageCloud Lake", desc: "Unified cloud data platform for analytics and AI at scale." },
+    { name: "Teradata ClearScape Analytics", desc: "In-database analytics and machine learning functions." }
+  ];
+  const tiles = [] .concat(
+    [fillerTiles[0]],
+    [{ name: "Teradata Fabric Universal Connector", desc: "Connect AWS-hosted workloads to Teradata fabric services and deploy required infrastructure.", real: true }],
+    [fillerTiles[1]]
+  );
+
+  const tilesHtml = tiles.map(function(t) {
+    return '' +
+      '<div class="prod-tile" ' + (t.real ? 'onclick="goStep(2)"' : '') + '>' +
+        '<div class="tile-logo-box"><span class="td-logo-text">teradata.</span></div>' +
+        '<div class="tile-name">' + t.name + '</div>' +
+        '<div class="tile-vendor">By Teradata</div>' +
+        '<div class="tile-desc">' + t.desc + '</div>' +
+      '</div>';
+  }).join("");
+
+  return crumbHtml([{ label: "AWS Marketplace" }]) +
+    '<div class="mkt-shell">' +
+      marketplaceNavHtml("discover") +
+      '<main class="mkt-main">' +
+        '<div style="max-width:640px;margin-bottom:20px">' +
+          '<input style="width:100%;height:40px;border:1px solid #aab7b8;border-radius:4px;padding:0 14px;font-size:14px" placeholder="Search AWS Marketplace products" value="teradata"/>' +
+        '</div>' +
+        '<div class="mkt-small" style="margin-bottom:16px">3 results for <strong>&quot;teradata&quot;</strong></div>' +
+        '<div class="tile-grid">' + tilesHtml + '</div>' +
+      '</main>' +
+    '</div>';
+}
+
+/* ---------- Step 2: Product detail ---------- */
+
+function setProdTab(tab) {
+  prodTab = tab;
+  render();
+}
+
+function pageProductDetail() {
+  const tabs = ["Overview", "Pricing", "Legal", "Usage", "Resources", "Support", "Similar products"];
+  const tabsHtml = tabs.map(function(t) {
+    const key = t.toLowerCase().replace(/ /g, "-");
+    return '<div class="prod-tab ' + (prodTab === key ? "active" : "") + '" onclick="setProdTab(\'' + key + '\')">' + t + '</div>';
+  }).join("");
+
+  let body;
+  if (prodTab === "overview") {
+    body = '' +
+      '<h2 style="margin-top:22px">Overview</h2>' +
+      '<div class="two-col" style="margin-top:14px">' +
+        '<div>' +
+          '<div class="prod-video-box">&#9658;</div>' +
+          '<p style="margin-top:14px;font-size:14px;line-height:1.7">The Teradata Fabric Universal Connector links AWS-hosted workloads directly into Teradata fabric services. Deploy the required Lambda, Step Functions, and Knowledge Base infrastructure automatically, then connect additional enterprise data sources through the built-in Admin UI.</p>' +
+        '</div>' +
+        '<div>' +
+          '<div class="mkt-card">' +
+            '<h3>Highlights</h3>' +
+            '<ul>' +
+              '<li>Deploys a production-ready connector stack via CloudFormation in minutes</li>' +
+              '<li>Includes an enterprise Knowledge Base pre-wired for AWS Bedrock AgentCore</li>' +
+              '<li>Configure additional data sources post-deployment from the Admin UI</li>' +
+            '</ul>' +
+          '</div>' +
+          '<div class="mkt-card">' +
+            '<h3>Details</h3>' +
+            '<div class="kv-item" style="margin-bottom:12px"><div class="kv-label">Sold by</div><div class="kv-value">Teradata</div></div>' +
+            '<div class="kv-item"><div class="kv-label">Categories</div><div class="kv-value">Data Analytics, Business Intelligence &amp; Advanced Analytics, ML Solutions</div></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  } else {
+    body = '<h2 style="margin-top:22px">' + tabs.find(function(t) { return t.toLowerCase().replace(/ /g, "-") === prodTab; }) + '</h2>' +
+      '<p class="mkt-small" style="margin-top:10px">Additional ' + prodTab + ' details are not part of this mock.</p>';
+  }
+
+  return crumbHtml([
+    { label: "AWS Marketplace", onclick: "goStep(1)" },
+    { label: "Discover products", onclick: "goStep(1)" },
+    { label: "Teradata Fabric Universal Connector" }
+  ]) +
+    '<div class="mkt-shell">' +
+      marketplaceNavHtml("discover") +
+      '<main class="mkt-main">' +
+        '<div class="prod-detail-head">' +
+          '<div class="prod-detail-body">' +
+            '<div class="prod-logo-lg"><span class="td-logo-text lg">teradata.</span></div>' +
+            '<div class="prod-title-block">' +
+              '<h1>Teradata Fabric Universal Connector <span style="font-size:14px;color:var(--aws-blue);font-weight:400;cursor:pointer">Info</span></h1>' +
+              '<div class="sold-by">Sold by: <a>Teradata</a></div>' +
+              '<div class="deployed-badge">Deployed on AWS</div>' +
+              '<p style="font-size:14px;max-width:700px">Connect AWS-hosted workloads to Teradata fabric services and deploy required infrastructure in your AWS account.</p>' +
+            '</div>' +
+          '</div>' +
+          '<button class="btn2 orange" onclick="goStep(3)" style="white-space:nowrap">View purchase options</button>' +
+        '</div>' +
+        '<div class="prod-tabs">' + tabsHtml + '</div>' +
+        body +
+      '</main>' +
+    '</div>';
+}
+
+/* ---------- Step 3: Purchase options ---------- */
+
+function pagePurchaseOptions() {
+  const rows = [
+    ["m5.2xlarge", "General purpose, balanced compute", "$1.04/Hrs"],
+    ["m5.4xlarge", "High-throughput ingestion", "$2.08/Hrs"],
+    ["m5.8xlarge", "Large-scale batch processing", "$4.16/Hrs"]
+  ].map(function(r) {
+    return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>";
+  }).join("");
+
+  return crumbHtml([
+    { label: "AWS Marketplace", onclick: "goStep(1)" },
+    { label: "Discover products", onclick: "goStep(1)" },
+    { label: "Teradata Fabric Universal Connector", onclick: "goStep(2)" },
+    { label: "Purchase options for Teradata Fabric Universal Connector" }
+  ]) +
+    '<div class="mkt-shell">' +
+      marketplaceNavHtml("discover") +
+      '<main class="mkt-main">' +
+        '<div class="mkt-card">' +
+          '<h2>Product details</h2>' +
+          '<div class="kv-grid">' +
+            '<div class="kv-item"><div class="kv-label">Product name</div><div class="kv-value">Teradata Fabric Universal Connector <span class="deployed-badge" style="margin-left:6px">Deployed on AWS</span></div></div>' +
+            '<div class="kv-item"><div class="kv-label">Product ID</div><div class="kv-value">prod-tdfabricuconn01</div></div>' +
+            '<div class="kv-item"><div class="kv-label">Offered by</div><div class="kv-value">Teradata</div></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mkt-card">' +
+          '<h2>Pricing details</h2>' +
+          '<p class="mkt-small">AWS Marketplace charges for the product based on your usage. Subscriptions have no end date and can be canceled at any time. Additional AWS infrastructure costs apply.</p>' +
+          '<h3 style="margin-top:18px">Usage cost (3)</h3>' +
+          '<table class="table2">' +
+            '<thead><tr><th>Instance type</th><th>Description</th><th>Cost/hour (USD)</th></tr></thead>' +
+            '<tbody>' + rows + '</tbody>' +
+          '</table>' +
+        '</div>' +
+        '<div class="mkt-card">' +
+          '<h2>Terms and conditions</h2>' +
+          '<p class="mkt-small">By subscribing to this software, you agree to the pricing terms and the seller&#39;s End User License Agreement (EULA). AWS will issue invoices and collect payments from you on behalf of the seller through your AWS account.</p>' +
+          '<button class="btn2 outline" style="margin-top:12px">&#8681; Download EULA(s)</button>' +
+        '</div>' +
+      '</main>' +
+    '</div>' +
+    '<div class="sticky-foot">' +
+      '<a class="link-btn" onclick="goStep(2)">Back</a>' +
+      '<button class="btn2 orange" onclick="onSubscribe()">Subscribe</button>' +
+    '</div>';
+}
+
+/* ---------- Step 4: Manage subscriptions ---------- */
+
+function pageManageSubscriptions() {
+  return crumbHtml([
+    { label: "AWS Marketplace", onclick: "goStep(1)" },
+    { label: "Manage subscriptions", onclick: "goStep(4)" },
+    { label: "Teradata Fabric Universal Connector" }
+  ]) +
+    '<div class="mkt-shell">' +
+      marketplaceNavHtml("manage") +
+      '<main class="mkt-main">' +
+        '<div class="subs-head">' +
+          '<h1>Teradata Fabric Universal Connector<span class="cf-template-badge">CloudFormation Template</span></h1>' +
+          '<div class="subs-actions">' +
+            '<button class="btn2 outline">Usage instructions</button>' +
+            '<button class="btn2 orange" onclick="goStep(5)">Launch CloudFormation stack</button>' +
+          '</div>' +
+        '</div>' +
+        '<p class="mkt-small" style="max-width:800px;margin-bottom:20px">Connect AWS-hosted workloads to Teradata fabric services and deploy required infrastructure in your AWS account. <a class="link-btn" style="display:inline">Read more</a></p>' +
+        '<div class="mkt-card">' +
+          '<h2>Pay-as-you-go</h2>' +
+          '<p class="mkt-small">Billed hourly based on the compute resources you provision. No upfront commitment required.</p>' +
+        '</div>' +
+        '<div class="mini-cards">' +
+          '<div class="mkt-card">' +
+            '<h2>Product summary</h2>' +
+            '<div class="kv-item" style="margin-bottom:12px"><div class="kv-label">Product</div><div class="kv-value">Teradata Fabric Universal Connector</div></div>' +
+            '<div class="kv-item" style="margin-bottom:12px"><div class="kv-label">Delivery method</div><div class="kv-value">CloudFormation Template</div></div>' +
+            '<div class="kv-item"><div class="kv-label">Product ID</div><div class="kv-value">prod-tdfabricuconn01</div></div>' +
+          '</div>' +
+          '<div class="mkt-card">' +
+            '<h2>Vendor support</h2>' +
+            '<div class="kv-item" style="margin-bottom:12px"><div class="kv-label">Refund policy</div><div class="kv-value">No refunds</div></div>' +
+            '<div class="kv-item"><div class="kv-label">Support</div><div class="kv-value">support@teradata.com</div></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mkt-card">' +
+          '<h2>Active agreements</h2>' +
+          '<table class="table2">' +
+            '<thead><tr><th>Agreement ID</th><th>Product</th><th>Status</th><th>Date</th></tr></thead>' +
+            '<tbody><tr><td>agmt-f19wfngxpyhmuur1kqkmhs1ko</td><td>Teradata Fabric Universal Connector</td><td class="ok">Active</td><td>Aug 4, 2026</td></tr></tbody>' +
+          '</table>' +
+        '</div>' +
+      '</main>' +
+    '</div>';
+}
+
+/* ---------- Step 5: Launch ---------- */
+
+function pageLaunch() {
+  return crumbHtml([
+    { label: "AWS Marketplace", onclick: "goStep(1)" },
+    { label: "Manage subscriptions", onclick: "goStep(4)" },
+    { label: "Teradata Fabric Universal Connector", onclick: "goStep(4)" },
+    { label: "Launch" }
+  ]) +
+    '<div class="mkt-shell">' +
+      marketplaceNavHtml("manage") +
+      '<main class="mkt-main">' +
+        '<h2 style="margin-bottom:20px">Launch Teradata Fabric Universal Connector</h2>' +
+        '<div class="mkt-card">' +
+          '<h2>Choose action</h2>' +
+          '<div class="grid2">' +
+            '<div class="field"><label>Fulfillment option</label><select disabled><option>CloudFormation Template</option></select></div>' +
+            '<div class="field"><label>Software version</label><select><option>2.4.1 (Recommended)</option></select></div>' +
+            '<div class="field"><label>Region</label><select id="launch-region"><option>us-east-2 (Ohio)</option><option>us-east-1 (N. Virginia)</option></select></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="mkt-card">' +
+          '<h2>Launch on a new CloudFormation stack</h2>' +
+          '<p class="mkt-small">This creates a new CloudFormation stack in your account using the vendor-provided template, and provisions the resources required to run the connector.</p>' +
+          '<button class="btn2 orange" style="margin-top:14px" onclick="goStep(6)">Launch with CloudFormation</button>' +
+        '</div>' +
+      '</main>' +
+    '</div>';
+}
+
+/* ---------- Step 6: CloudFormation create stack (Step 1) ---------- */
+
+function cfStepsHtml(activeIdx) {
+  const items = ["Create stack", "Specify stack details", "Configure stack options", "Review and create"];
+  return '<div class="cf-steps">' + items.map(function(label, i) {
+    const n = i + 1;
+    const cls = n < activeIdx ? "done" : (n === activeIdx ? "active" : "");
+    const marker = n < activeIdx ? "\u2713" : String(n);
+    return '<div class="cf-step-item ' + cls + '"><span class="cf-step-num">' + marker + '</span><span>' + label + '</span></div>';
+  }).join("") + '</div>';
+}
+
+function pageCfCreateStep1() {
+  return crumbHtml([
+    { label: "AWS CloudFormation", onclick: "goStep(6)" },
+    { label: "Stacks", onclick: "goStep(6)" },
+    { label: "Create stack" }
+  ]) +
+    '<div class="cf-shell">' +
+      cfStepsHtml(1) +
+      '<div class="cf-main">' +
+        '<div class="mkt-card">' +
+          '<h2>Prerequisite - Prepare template</h2>' +
+          '<div class="radio-line"><input type="radio" checked readonly/><div><label>Template is ready</label><div class="radio-sub">Use a template that is already prepared to create your stack.</div></div></div>' +
+        '</div>' +
+        '<div class="mkt-card">' +
+          '<h2>Specify template</h2>' +
+          '<p class="mkt-small">A template is a JSON or YAML file that describes your stack&#39;s resources.</p>' +
+          '<div class="radio-line" style="margin-top:14px"><input type="radio" checked readonly/><div><label>Amazon S3 URL</label></div></div>' +
+          '<div class="field full" style="max-width:640px"><label>Amazon S3 URL</label><input readonly value="https://cf-templates-teradata-fabric.s3.us-east-2.amazonaws.com/teradata-fabric-universal-connector/template.yaml"/></div>' +
+          '<a class="link-btn" style="display:inline-block;margin-top:8px">View in Designer</a>' +
+        '</div>' +
+        '<div class="wiz-actions">' +
+          '<button class="btn2 outline" onclick="goStep(5)">Cancel</button>' +
+          '<button class="btn2 orange" onclick="goStep(7)">Next</button>' +
         '</div>' +
       '</div>' +
     '</div>';
 }
 
-function stepCloudFormation() {
-  return '' +
-    '<h2>CloudFormation Stack Configuration</h2>' +
-    '<div class="small">Enter advanced details, then deploy the stack.</div>' +
-    '<div class="grid">' +
-      '<div class="field full"><label>Stack name</label><input value="td-fabric-universal-connector-prod"/></div>' +
-      '<div class="field"><label>AWS Region</label><select><option>us-east-2 (Ohio)</option><option>us-east-1 (N. Virginia)</option></select></div>' +
-      '<div class="field"><label>Instance type</label><select><option>m5.2xlarge</option><option>m5.4xlarge</option></select></div>' +
-      '<div class="field"><label>VPC</label><select><option>vpc-01ab23cd (prod-vpc)</option><option>vpc-89ef01gh (shared-vpc)</option></select></div>' +
-      '<div class="field"><label>Subnet</label><select><option>subnet-1133aa (private-a)</option><option>subnet-2244bb (private-b)</option></select></div>' +
-      '<div class="field full"><label>Connector endpoint name</label><input value="td-fabric-endpoint-prod"/></div>' +
-    '</div>' +
-    '<div class="actions">' +
-      '<button onclick="goStep(1)">Back</button>' +
-      '<button class="primary" onclick="goStep(3)">Deploy</button>' +
+/* ---------- Step 7: CloudFormation specify stack details (Step 2) ---------- */
+
+function pageCfStackDetails() {
+  return crumbHtml([
+    { label: "AWS CloudFormation", onclick: "goStep(6)" },
+    { label: "Stacks", onclick: "goStep(6)" },
+    { label: "Create stack" }
+  ]) +
+    '<div class="cf-shell">' +
+      cfStepsHtml(2) +
+      '<div class="cf-main">' +
+        '<div class="mkt-card">' +
+          '<h2>Stack name</h2>' +
+          '<div class="field full" style="max-width:480px"><label>Stack name</label><input id="pf-stack-name" value="' + stackName + '"/></div>' +
+        '</div>' +
+        '<div class="mkt-card">' +
+          '<h2>Parameters</h2>' +
+          '<div class="param-group-title">Compute Configuration</div>' +
+          '<div class="grid2">' +
+            '<div class="field"><label>Instance type</label><select><option>m5.2xlarge</option><option>m5.4xlarge</option></select></div>' +
+            '<div class="field"><label>Cluster size</label><input type="number" value="3"/></div>' +
+          '</div>' +
+          '<div class="param-group-title">Network Configuration</div>' +
+          '<div class="grid2">' +
+            '<div class="field"><label>VPC ID</label><select><option>vpc-01ab23cd (prod-vpc)</option><option>vpc-89ef01gh (shared-vpc)</option></select></div>' +
+            '<div class="field"><label>Subnet ID</label><select><option>subnet-1133aa (private-a)</option><option>subnet-2244bb (private-b)</option></select></div>' +
+          '</div>' +
+          '<div class="param-group-title">Connector Configuration</div>' +
+          '<div class="field full"><label>Connector endpoint name</label><input value="td-fabric-endpoint-prod"/></div>' +
+        '</div>' +
+        '<div class="wiz-actions">' +
+          '<button class="btn2 outline" onclick="goStep(5)">Cancel</button>' +
+          '<button class="btn2 outline" onclick="goStep(6)">Previous</button>' +
+          '<button class="btn2 orange" onclick="onCreateStack()">Create stack</button>' +
+        '</div>' +
+      '</div>' +
     '</div>';
 }
 
-function stepDeploying() {
-  const statusHtml = deployComplete
-    ? '<span class="ok">Create Complete</span>'
-    : '<span class="status-progress"><span class="spinner" aria-hidden="true"></span>Creating</span>';
-  const rows = deploymentResources.map(function(resource) {
-    return "" +
-      "<tr>" +
-        "<td>" + resource.name + "</td>" +
-        "<td>" + resource.type + "</td>" +
-        "<td>" + statusHtml + "</td>" +
-      "</tr>";
-  }).join("");
+function onCreateStack() {
+  activeTab = "info";
+  startDeploymentProcess();
+  goStep(8);
+}
 
+/* ---------- Step 8: Stack info (info / events / resources / outputs) ---------- */
+
+function siTabsHtml() {
+  const tabs = [
+    ["info", "Stack info"], ["events", "Events"], ["resources", "Resources"], ["outputs", "Outputs"],
+    ["parameters", "Parameters"], ["template", "Template"], ["changesets", "Change sets"], ["gitsync", "Git sync"]
+  ];
+  return '<div class="si-tabs">' + tabs.map(function(t) {
+    const hint = (t[0] === "outputs" && guideStage === 1) ? " tab-hint" : "";
+    return '<div class="si-tab ' + (activeTab === t[0] ? "active" : "") + hint + '" onclick="setTab(\'' + t[0] + '\')">' + t[1] + '</div>';
+  }).join("") + '</div>';
+}
+
+function statusBadgeHtml() {
+  return deployComplete
+    ? '<span class="status-badge complete">&#10003; CREATE_COMPLETE</span>'
+    : '<span class="status-badge progress"><span class="spinner"></span>CREATE_IN_PROGRESS</span>';
+}
+
+function renderStackInfoOverview() {
   return '' +
-    '<h2>Deploying Stack</h2>' +
-    '<div class="small">Submitting CloudFormation template and provisioning resources. Status updates automatically after 5 seconds.</div>' +
-    '<table class="table">' +
-      '<thead><tr><th>Resource</th><th>Resource Type</th><th>Status</th></tr></thead>' +
-      '<tbody>' + rows + '</tbody>' +
-    '</table>' +
-    '<div class="actions">' +
-      '<button onclick="goStep(2)">Back</button>' +
-      '<button class="primary" onclick="goStep(4)" ' + (deployComplete ? '' : 'disabled') + '>' + (deployComplete ? 'View Deployed Resources' : 'Deploying...') + '</button>' +
+    '<h2 style="margin-bottom:16px">Overview</h2>' +
+    '<div class="kv-grid">' +
+      '<div class="kv-item"><div class="kv-label">Status</div><div class="kv-value">' + statusBadgeHtml() + '</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Description</div><div class="kv-value">Teradata Fabric Universal Connector</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Detailed status</div><div class="kv-value">-</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Root stack</div><div class="kv-value">-</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Parent stack</div><div class="kv-value">-</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Deployed by</div><div class="kv-value">Developer/user@teradata.com</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Drift status</div><div class="kv-value">NOT_CHECKED</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Last updated time</div><div class="kv-value">Aug 4, 2026, 10:41 UTC</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Termination protection</div><div class="kv-value">Disabled</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Region</div><div class="kv-value">us-east-2 (Ohio)</div></div>' +
+      '<div class="kv-item"><div class="kv-label">Concurrency mode</div><div class="kv-value">STANDARD</div></div>' +
     '</div>';
 }
 
-function renderResourcesTable() {
-  const rows = deploymentResources.map(function(resource) {
-    return "" +
-      "<tr>" +
-        "<td>" + resource.name + "</td>" +
-        "<td>" + resource.type + "</td>" +
-        "<td>" + resource.physicalId + "</td>" +
-        "<td class=\"ok\">Create Complete</td>" +
-      "</tr>";
+function renderStackEvents() {
+  const rows = deploymentResources.map(function(r) {
+    const status = deployComplete ? "CREATE_COMPLETE" : "CREATE_IN_PROGRESS";
+    return "<tr><td>2026-08-04 10:41:03 UTC</td><td>" + r.logicalId + "</td><td class=\"" + (deployComplete ? "ok" : "") + "\">" + status + "</td><td>-</td></tr>";
   }).join("");
+  return '<table class="table2"><thead><tr><th>Timestamp</th><th>Logical ID</th><th>Status</th><th>Status reason</th></tr></thead><tbody>' + rows + "<tr><td>2026-08-04 10:41:00 UTC</td><td>" + stackName + "</td><td class=\"" + (deployComplete ? "ok" : "") + "\">" + (deployComplete ? "CREATE_COMPLETE" : "CREATE_IN_PROGRESS") + "</td><td>User Initiated</td></tr></tbody></table>";
+}
 
+function renderResourcesTable2() {
+  const rows = deploymentResources.map(function(r) {
+    const statusHtml = deployComplete
+      ? '<span class="status-badge complete">CREATE_COMPLETE</span>'
+      : '<span class="status-badge progress"><span class="spinner"></span>CREATE_IN_PROGRESS</span>';
+    return "<tr><td>" + r.logicalId + "</td><td>" + r.physicalId + "</td><td>" + r.type + "</td><td>" + statusHtml + "</td><td>-</td></tr>";
+  }).join("");
+  return '<table class="table2"><thead><tr><th>Logical ID</th><th>Physical ID</th><th>Type</th><th>Status</th><th>Module</th></tr></thead><tbody>' + rows + '</tbody></table>';
+}
+
+function renderOutputsTable2() {
+  const adminHint = guideStage === 2 ? " admin-ui-hint" : "";
   return '' +
-    '<table class="table">' +
-      '<thead><tr><th>Resource</th><th>Type</th><th>Physical ID</th><th>Status</th></tr></thead>' +
-      '<tbody>' + rows + '</tbody>' +
+    '<table class="table2 out2">' +
+      '<thead><tr><th>Key</th><th>Value</th><th>Description</th><th>Export name</th></tr></thead>' +
+      '<tbody>' +
+        '<tr><td>TDUniversalFabricLambdaArn</td><td>' + cfLambdaArn + '</td><td>ARN of the universal fabric ingestion Lambda</td><td>' + stackName + '-LambdaArn</td></tr>' +
+        '<tr><td>KnowledgeBaseArn</td><td>' + cfKbArn + '</td><td>ARN of the enterprise knowledge base</td><td>' + stackName + '-KbArn</td></tr>' +
+        '<tr><td>AdminUIEndpoint</td><td><a href="javascript:void(0)" class="' + adminHint.trim() + '" onclick="openAdminUIInNewWindow()">Open Admin UI</a></td><td>Admin UI for configuring data sources</td><td>' + stackName + '-AdminUI</td></tr>' +
+      '</tbody>' +
     '</table>';
 }
 
-function renderOutputs() {
-  return '' +
-    '<div class="out">' +
-      '<div class="out-row"><span>TDUniversalFabricLambdaArn</span><strong>' + cfLambdaArn + '</strong></div>' +
-      '<div class="out-row"><span>KnowledgeBaseArn</span><strong>' + cfKbArn + '</strong></div>' +
-      '<div class="out-row"><span>AdminUIEndpoint</span><strong><a href="javascript:void(0)" onclick="openAdminUIInNewWindow()">Open Admin UI</a></strong></div>' +
+function pageStackInfo() {
+  let tabContent;
+  if (activeTab === "events") tabContent = renderStackEvents();
+  else if (activeTab === "resources") tabContent = renderResourcesTable2();
+  else if (activeTab === "outputs") tabContent = renderOutputsTable2();
+  else if (activeTab === "info") tabContent = renderStackInfoOverview();
+  else tabContent = '<div class="si-empty">No additional data available in this mock.</div>';
+
+  return crumbHtml([
+    { label: "AWS CloudFormation", onclick: "goStep(8)" },
+    { label: "Stacks", onclick: "goStep(8)" },
+    { label: stackName }
+  ]) +
+    '<div class="si-shell">' +
+      '<div class="si-stacks">' +
+        '<h3>Stacks</h3>' +
+        '<input class="si-search" placeholder="Filter by stack name"/>' +
+        '<div class="si-stack-row selected"><span class="sn">' + stackName + '</span><span class="ss">' + (deployComplete ? "CREATE_COMPLETE" : "CREATE_IN_PROGRESS") + '</span></div>' +
+      '</div>' +
+      '<div class="si-detail">' +
+        '<div class="si-head">' +
+          '<h1>' + stackName + '</h1>' +
+          '<div class="si-head-actions">' +
+            '<button class="btn2 outline" disabled>Delete</button>' +
+            '<button class="btn2 outline" disabled>Update</button>' +
+            '<button class="btn2 outline" disabled>Stack actions &#9662;</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="si-subline">Stack ID: arn:aws:cloudformation:us-east-2:123456789012:stack/' + stackName + '/9f3c1a20-71e4-11ef-9f2a-0abcdef01234</div>' +
+        siTabsHtml() +
+        tabContent +
+      '</div>' +
     '</div>';
 }
 
-function stepDeployed() {
-  return '' +
-    '<h2>Stack Details</h2>' +
-    '<div class="small">Deployment finished. Review resources or open Outputs, then use AWS Bedrock AgentCore in the left rail to continue to gateway creation.</div>' +
-    '<div class="tabs">' +
-      '<button class="tab ' + (activeTab === "resources" ? "active" : "") + '" onclick="setTab(\'resources\')">Resources</button>' +
-      '<button class="tab ' + (activeTab === "outputs" ? "active" : "") + '" onclick="setTab(\'outputs\')">Outputs</button>' +
-    '</div>' +
-    (activeTab === "resources" ? renderResourcesTable() : renderOutputs());
+/* ---------- navigation / lifecycle ---------- */
+
+function pageSubscribing() {
+  return crumbHtml([
+    { label: "AWS Marketplace", onclick: "goStep(1)" },
+    { label: "Discover products", onclick: "goStep(1)" },
+    { label: "Teradata Fabric Universal Connector", onclick: "goStep(2)" },
+    { label: "Purchase options for Teradata Fabric Universal Connector" }
+  ]) +
+    '<div class="mkt-shell">' +
+      marketplaceNavHtml("discover") +
+      '<main class="mkt-main">' +
+        '<div class="mkt-card" style="text-align:center;padding:60px 28px">' +
+          '<div class="spinner" style="width:28px;height:28px;border-width:3px;margin-bottom:16px"></div>' +
+          '<h2 style="margin-bottom:6px">Subscribing to Teradata Fabric Universal Connector</h2>' +
+          '<p class="mkt-small">This may take a few seconds. Please don&#39;t navigate away from this page.</p>' +
+        '</div>' +
+      '</main>' +
+    '</div>';
 }
+
+function onSubscribe() {
+  subscribed = true;
+  subscribing = true;
+  render();
+  setTimeout(function() {
+    subscribing = false;
+    step = 4;
+    render();
+  }, 3000);
+}
+
+function handleGlobalSearch(event) {
+  if (event.key !== "Enter") return;
+  const q = event.target.value.trim().toLowerCase();
+  hideSearchDropdown();
+  if (q.indexOf("agentcore") !== -1 || q.indexOf("agent core") !== -1) {
+    event.target.value = "";
+    clearSearchHint();
+    openAgentCoreGatewayConsole();
+  }
+}
+
+function showSearchDropdown() {
+  const dd = document.getElementById("search-dropdown");
+  if (dd) dd.classList.add("open");
+}
+
+function hideSearchDropdown() {
+  const dd = document.getElementById("search-dropdown");
+  if (dd) dd.classList.remove("open");
+}
+
+function selectSearchSuggestion(value) {
+  hideSearchDropdown();
+  const input = document.getElementById("global-search");
+  if (value.toLowerCase() === "agentcore") {
+    if (input) input.value = "";
+    clearSearchHint();
+    openAgentCoreGatewayConsole();
+  } else if (input) {
+    input.value = value;
+  }
+}
+
+document.addEventListener("click", function(e) {
+  const box = document.getElementById("nav-search-box");
+  if (box && !box.contains(e.target)) {
+    hideSearchDropdown();
+  }
+});
 
 function setTab(tab) {
   activeTab = tab;
+  if (tab === "outputs" && guideStage === 1) guideStage = 2;
   render();
 }
 
@@ -983,7 +1091,8 @@ function startDeploymentProcess() {
   }
   deployTimer = setTimeout(function() {
     deployComplete = true;
-    if (step === 3 || step === 4) {
+    if (guideStage === 0) guideStage = 1;
+    if (step === 8) {
       render();
     }
   }, 5000);
@@ -991,54 +1100,62 @@ function startDeploymentProcess() {
 
 function goStep(next) {
   step = next;
-  if (step >= 2 && step <= 4) {
-    currentApp = "cloudformation";
-    subscribed = true;
-  }
-  if (step === 3) {
-    startDeploymentProcess();
-  }
-  if (step < 4) {
-    activeTab = "resources";
-  }
   render();
 }
 
-function render() {
-  renderTopBar();
-  renderRail();
-  renderStepper();
-  renderBreadcrumb();
+function openAdminUIInNewWindow() {
+  if (guideStage === 2) guideStage = 3;
+  window.open(window.location.pathname + "?admin=1", "_blank");
+  render();
+}
 
-  const pageTitle = document.getElementById("page-title");
-  const pageSub = document.getElementById("page-sub");
-  const stepper = document.getElementById("stepper");
-  const root = document.getElementById("content");
+function openAgentCoreGatewayConsole() {
+  currentApp = "agentcore";
+  render();
+}
+
+function clearSearchHint() {
+  if (guideStage === 3) guideStage = 4;
+  const box = document.getElementById("nav-search-box");
+  if (box) box.classList.remove("search-hint");
+}
+
+function pageForStep() {
+  if (subscribing) return pageSubscribing();
+  if (step === 1) return pageSearch();
+  if (step === 2) return pageProductDetail();
+  if (step === 3) return pagePurchaseOptions();
+  if (step === 4) return pageManageSubscriptions();
+  if (step === 5) return pageLaunch();
+  if (step === 6) return pageCfCreateStep1();
+  if (step === 7) return pageCfStackDetails();
+  return pageStackInfo();
+}
+
+function render() {
+  const appRoot = document.getElementById("app-root");
   const acView = document.getElementById("ac-view");
 
   if (currentApp === "agentcore") {
-    pageTitle.textContent = "Amazon Bedrock AgentCore";
-    pageSub.textContent = "Embedded AgentCore gateway creation and Admin UI experience.";
-    stepper.style.display = "none";
-    root.style.display = "none";
+    appRoot.style.display = "none";
     acView.style.display = "flex";
     return;
   }
 
   acView.style.display = "none";
-  root.style.display = "";
-  pageTitle.textContent = "Deploy Teradata Fabric Universal Connector";
-  pageSub.textContent = "Mock flow: Marketplace subscription to CloudFormation deployment outputs.";
-  stepper.style.display = "flex";
+  appRoot.style.display = "";
+  appRoot.innerHTML = pageForStep();
 
-  if (step === 1) root.innerHTML = stepMarketplace();
-  if (step === 2) root.innerHTML = stepCloudFormation();
-  if (step === 3) root.innerHTML = stepDeploying();
-  if (step === 4) root.innerHTML = stepDeployed();
+  const searchBox = document.getElementById("nav-search-box");
+  if (searchBox) {
+    const shouldHint = guideStage === 3;
+    searchBox.classList.toggle("search-hint", shouldHint);
+  }
 }
 
 </script>
 <div id="ac-view" style="display:none">
+
 
 <div class="topbar">
   <span class="aws-logo">aws</span>
@@ -5075,22 +5192,21 @@ function performUpgrade() {
     subscribed = true;
     deployComplete = true;
     currentApp = "agentcore";
-    step = 4;
+    step = 8;
     activeTab = "outputs";
-    document.querySelector(".topbar").style.display = "none";
-    document.getElementById("breadcrumb").style.display = "none";
-    document.querySelector(".workspace").style.display = "none";
+    document.querySelector(".aws-nav").style.display = "none";
     render();
     showAdminUI();
     return;
   }
-  if (parseInt(params.get("step"), 10) === 4) {
+  const qStep = parseInt(params.get("step"), 10);
+  if (qStep === 8) {
     subscribed = true;
     deployComplete = true;
-    currentApp = "cloudformation";
-    step = 4;
+    currentApp = "main";
+    step = 8;
     const qTab = params.get("tab");
-    if (qTab === "outputs" || qTab === "resources") activeTab = qTab;
+    if (["info", "events", "resources", "outputs"].indexOf(qTab) !== -1) activeTab = qTab;
   }
 })();
 
