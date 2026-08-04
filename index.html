@@ -185,6 +185,12 @@ body {
 .prod-tile .tile-vendor { font-size: 12px; color: var(--aws-muted); margin-bottom: 6px; }
 .prod-tile .tile-desc { font-size: 12px; color: var(--aws-muted); line-height: 1.4; }
 
+.cta-pulse { animation: ctaHintPulse 1.2s ease-in-out infinite; }
+@keyframes ctaHintPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236, 114, 17, 0.7); }
+  50% { box-shadow: 0 0 0 10px rgba(236, 114, 17, 0); }
+}
+
 .td-logo-text { color: #ff6b00; font-weight: 900; font-size: 15px; letter-spacing: -0.5px; }
 .td-logo-text.lg { font-size: 26px; }
 
@@ -600,7 +606,7 @@ function pageSearch() {
 
   const tilesHtml = tiles.map(function(t) {
     return '' +
-      '<div class="prod-tile" ' + (t.real ? 'onclick="goStep(2)"' : '') + '>' +
+      '<div class="prod-tile' + (t.real ? ' cta-pulse' : '') + '" ' + (t.real ? 'onclick="goStep(2)"' : '') + '>' +
         '<div class="tile-logo-box"><span class="td-logo-text">teradata.</span></div>' +
         '<div class="tile-name">' + t.name + '</div>' +
         '<div class="tile-vendor">By Teradata</div>' +
@@ -683,7 +689,7 @@ function pageProductDetail() {
               '<p style="font-size:14px;max-width:700px">Connect AWS-hosted workloads to Teradata fabric services and deploy required infrastructure in your AWS account.</p>' +
             '</div>' +
           '</div>' +
-          '<button class="btn2 orange" onclick="goStep(3)" style="white-space:nowrap">View purchase options</button>' +
+          '<button class="btn2 orange cta-pulse" onclick="goStep(3)" style="white-space:nowrap">View purchase options</button>' +
         '</div>' +
         '<div class="prod-tabs">' + tabsHtml + '</div>' +
         body +
@@ -737,7 +743,7 @@ function pagePurchaseOptions() {
     '</div>' +
     '<div class="sticky-foot">' +
       '<a class="link-btn" onclick="goStep(2)">Back</a>' +
-      '<button class="btn2 orange" onclick="onSubscribe()">Subscribe</button>' +
+      '<button class="btn2 orange cta-pulse" onclick="onSubscribe()">Subscribe</button>' +
     '</div>';
 }
 
@@ -756,7 +762,7 @@ function pageManageSubscriptions() {
           '<h1>Teradata Fabric Universal Connector<span class="cf-template-badge">CloudFormation Template</span></h1>' +
           '<div class="subs-actions">' +
             '<button class="btn2 outline">Usage instructions</button>' +
-            '<button class="btn2 orange" onclick="goStep(5)">Launch CloudFormation stack</button>' +
+            '<button class="btn2 orange cta-pulse" onclick="goStep(5)">Launch CloudFormation stack</button>' +
           '</div>' +
         '</div>' +
         '<p class="mkt-small" style="max-width:800px;margin-bottom:20px">Connect AWS-hosted workloads to Teradata fabric services and deploy required infrastructure in your AWS account. <a class="link-btn" style="display:inline">Read more</a></p>' +
@@ -812,7 +818,7 @@ function pageLaunch() {
         '<div class="mkt-card">' +
           '<h2>Launch on a new CloudFormation stack</h2>' +
           '<p class="mkt-small">This creates a new CloudFormation stack in your account using the vendor-provided template, and provisions the resources required to run the connector.</p>' +
-          '<button class="btn2 orange" style="margin-top:14px" onclick="goStep(6)">Launch with CloudFormation</button>' +
+          '<button class="btn2 orange cta-pulse" style="margin-top:14px" onclick="goStep(6)">Launch with CloudFormation</button>' +
         '</div>' +
       '</main>' +
     '</div>';
@@ -852,7 +858,7 @@ function pageCfCreateStep1() {
         '</div>' +
         '<div class="wiz-actions">' +
           '<button class="btn2 outline" onclick="goStep(5)">Cancel</button>' +
-          '<button class="btn2 orange" onclick="goStep(7)">Next</button>' +
+          '<button class="btn2 orange cta-pulse" onclick="goStep(7)">Next</button>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -891,7 +897,7 @@ function pageCfStackDetails() {
         '<div class="wiz-actions">' +
           '<button class="btn2 outline" onclick="goStep(5)">Cancel</button>' +
           '<button class="btn2 outline" onclick="goStep(6)">Previous</button>' +
-          '<button class="btn2 orange" onclick="onCreateStack()">Create stack</button>' +
+          '<button class="btn2 orange cta-pulse" onclick="onCreateStack()">Create stack</button>' +
         '</div>' +
       '</div>' +
     '</div>';
