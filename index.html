@@ -506,6 +506,56 @@ textarea.form-input{height:72px;resize:vertical;padding:7px 10px}
 .btn-next{background:#FF9900;color:#fff;border:1px solid #E88B00;padding:6px 20px;border-radius:3px;font-size:13px;cursor:pointer;font-weight:700}
 .btn-cancel:hover,.btn-prev:hover{background:#f5f5f5}
 .btn-next:hover{background:#E88B00}
+
+/* ===== Teradata Admin UI (td_admin_ui style guide) ===== */
+.td-admin{
+  --td-orange:#FF6B00;
+  --td-accent:#4F46E5;
+  --td-accent-hover:#4338CA;
+  --td-page-bg:#F4F6FA;
+  --td-card-bg:#ffffff;
+  --td-stat-bg:#EEF0F5;
+  --td-border:#E3E6ED;
+  --td-text:#14171F;
+  --td-muted:#6B7280;
+  --td-green:#178A3B;
+  --td-green-bg:#EAF6EC;
+  --td-green-banner:#A8DCB2;
+  --td-red:#C0392B;
+  --td-amber:#B45309;
+  background:var(--td-page-bg);
+  font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+  color:var(--td-text);
+}
+.td-header{background:#fff;border-bottom:1px solid var(--td-border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.td-header-left{display:flex;align-items:baseline;gap:14px}
+.td-logo{color:var(--td-orange);font-size:20px;font-weight:800;letter-spacing:-0.5px}
+.td-logo-dot{color:var(--td-orange)}
+.td-header-title{color:var(--td-text);font-size:15px;font-weight:500}
+.td-back-btn{background:#fff;border:1.5px solid var(--td-accent);color:var(--td-accent);padding:7px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.td-back-btn:hover{background:#F1F1FE}
+.td-subnav{background:#fff;border-bottom:1px solid var(--td-border);padding:0 32px;display:flex;gap:4px}
+.td-tab{padding:14px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2.5px solid transparent;color:var(--td-muted);white-space:nowrap}
+.td-tab.active{color:var(--td-accent);border-bottom-color:var(--td-accent)}
+.td-tab:hover:not(.active){color:var(--td-text)}
+.td-content-wrap{max-width:1100px;margin:0 auto;padding:32px 32px 60px}
+.td-stat-card{background:var(--td-stat-bg);border-radius:8px;padding:18px 20px}
+.td-stat-label{font-size:12px;font-weight:600;color:var(--td-muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.td-stat-value{font-size:16px;color:var(--td-text)}
+.td-card{background:var(--td-card-bg);border:1px solid var(--td-border);border-radius:10px;overflow:hidden}
+.td-card-head{padding:16px 24px;border-bottom:1px solid var(--td-border);display:flex;align-items:center;justify-content:space-between}
+.td-card-title{font-size:16px;font-weight:700;color:var(--td-text)}
+.td-card-body{padding:20px 24px}
+.td-btn-primary{background:var(--td-accent);color:#fff;border:none;border-radius:6px;padding:9px 22px;font-size:14px;font-weight:700;cursor:pointer}
+.td-btn-primary:hover{background:var(--td-accent-hover)}
+.td-btn-disabled{background:var(--td-stat-bg);color:var(--td-muted);border:none;border-radius:6px;padding:9px 22px;font-size:14px;font-weight:700;cursor:default}
+.td-status-ok{color:var(--td-green);font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.td-status-syncing{color:var(--td-accent);font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.td-uptodate-banner{display:flex;align-items:center;gap:10px;background:var(--td-green-banner);color:#0E3B1C;border-radius:8px;padding:14px 20px;font-size:14px;font-weight:600}
+.td-verifying{display:inline-flex;align-items:center;gap:6px;color:var(--td-accent);font-size:13px;font-weight:600}
+.td-table{width:100%;border-collapse:collapse;font-size:13px}
+.td-table th{text-align:left;padding:10px 16px;font-weight:700;color:var(--td-muted);font-size:12px;background:#FAFBFD;border-bottom:1px solid var(--td-border)}
+.td-table td{padding:12px 16px;border-bottom:1px solid #EEF0F4}
 </style>
 </head>
 <body>
@@ -4914,24 +4964,23 @@ function toggleGWMetadata() {
 </div>
 
 <!-- Admin UI overlay -->
-<div id="page-admin-ui" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:60;overflow-y:auto;background:#f0f0f0;font-family:-apple-system,'Helvetica Neue',Arial,sans-serif">
+<div id="page-admin-ui" class="td-admin" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:60;overflow-y:auto">
   <!-- Teradata-branded header -->
-  <div style="background:#FF6B00;padding:0 32px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.2)">
-    <div style="display:flex;align-items:center;gap:14px">
-      <span style="color:#fff;font-size:18px;font-weight:900;letter-spacing:-0.5px">Teradata</span>
-      <span style="color:rgba(255,255,255,.6);font-size:18px">|</span>
-      <span style="color:#fff;font-size:14px;font-weight:600">Fabric Universal Connector — Admin UI</span>
+  <div class="td-header">
+    <div class="td-header-left">
+      <span class="td-logo">teradata<span class="td-logo-dot">.</span></span>
+      <span class="td-header-title">Fabric Universal Connector - Admin UI</span>
     </div>
   </div>
   <!-- Sub-nav -->
-  <div style="background:#fff;border-bottom:1px solid #d0d0d0;padding:0 32px;display:flex;gap:0">
-    <div id="admin-tab-overview" onclick="adminTab('overview')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid #FF6B00;color:#FF6B00">Overview</div>
-    <div id="admin-tab-software" onclick="adminTab('software')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:#555">Software Management</div>
-    <div id="admin-tab-observability" onclick="adminTab('observability')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:#555">Observability</div>
-    <div id="admin-tab-usage" onclick="adminTab('usage')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:#555">Usage</div>
-    <div id="admin-tab-identity" onclick="adminTab('identity')" style="padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:#555">Identity Provider</div>
+  <div class="td-subnav">
+    <div id="admin-tab-overview" class="td-tab active" onclick="adminTab('overview')">Overview</div>
+    <div id="admin-tab-software" class="td-tab" onclick="adminTab('software')">Software Management</div>
+    <div id="admin-tab-observability" class="td-tab" onclick="adminTab('observability')">Observability</div>
+    <div id="admin-tab-usage" class="td-tab" onclick="adminTab('usage')">Usage</div>
+    <div id="admin-tab-identity" class="td-tab" onclick="adminTab('identity')">Identity Provider</div>
   </div>
-  <div style="max-width:1100px;margin:0 auto;padding:32px 32px 60px">
+  <div class="td-content-wrap">
     <div id="admin-ui-content"></div>
   </div>
 </div>
@@ -4947,10 +4996,7 @@ function hideAdminUI() {
 function adminTab(tab) {
   ['overview','software','observability','usage','identity'].forEach(function(t) {
     var el = document.getElementById('admin-tab-' + t);
-    if(el) {
-      el.style.borderBottomColor = t === tab ? '#FF6B00' : 'transparent';
-      el.style.color = t === tab ? '#FF6B00' : '#555';
-    }
+    if(el) el.classList.toggle('active', t === tab);
   });
   var content = tab === 'software' ? renderAdminSoftware()
     : tab === 'overview' ? renderAdminOverview()
@@ -4959,20 +5005,20 @@ function adminTab(tab) {
 }
 
 function renderAdminOverview() {
-  var statusDot = '<span style="display:inline-flex;align-items:center;gap:6px;color:#1a7a2e;font-weight:600"><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#22c55e"/></svg>Running</span>';
+  var statusDot = '<span class="td-status-ok" style="font-weight:600"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#EAF6EC" stroke="#178A3B" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#178A3B" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Running</span>';
 
   var dsRows = configuredDataSources.length === 0
-    ? '<tr><td colspan="4" style="padding:40px;text-align:center;color:#888;font-size:13px">No data sources configured. Click <strong>Add a data source</strong> to get started.</td></tr>'
+    ? '<tr><td colspan="4" style="padding:40px;text-align:center;color:var(--td-muted);font-size:13px">No data sources configured. Click <strong>Add a data source</strong> to get started.</td></tr>'
     : configuredDataSources.map(function(c) {
         var idx = configuredDataSources.indexOf(c);
-        var spinner = '<svg width="13" height="13" viewBox="0 0 13 13" style="animation:spin .8s linear infinite"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#e0c000" stroke-width="2"/><path d="M6.5 1.5 A5 5 0 0 1 11.5 6.5" stroke="#8c6d00" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
+        var spinner = '<svg width="13" height="13" viewBox="0 0 13 13" style="animation:spin .8s linear infinite"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#C7D2FE" stroke-width="2"/><path d="M6.5 1.5 A5 5 0 0 1 11.5 6.5" stroke="#4F46E5" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
         var statusCell = c.status === 'ready'
-          ? '<span style="display:inline-flex;align-items:center;gap:5px;color:#1E8900;font-weight:500;font-size:13px"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#E8F5E9" stroke="#1E8900" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#1E8900" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Ready</span>'
+          ? '<span class="td-status-ok"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#EAF6EC" stroke="#178A3B" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#178A3B" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Ready</span>'
           : c.status === 'updating'
-          ? '<span style="display:inline-flex;align-items:center;gap:5px;color:#8c6d00;font-weight:500;font-size:13px">' + spinner + 'Updating</span>'
-          : '<span style="display:inline-flex;align-items:center;gap:5px;color:#8c6d00;font-weight:500;font-size:13px">' + spinner + 'Configuring</span>';
+          ? '<span class="td-status-syncing">' + spinner + 'Updating</span>'
+          : '<span class="td-status-syncing">' + spinner + 'Configuring</span>';
         return '<tr style="border-bottom:1px solid #e8e8e8" id="td-ds-row-' + idx + '">'
-          + '<td style="padding:12px 16px;font-weight:500;color:var(--aws-blue)">' + c.name + '</td>'
+          + '<td style="padding:12px 16px;font-weight:500;color:var(--td-text)">' + c.name + '</td>'
           + '<td style="padding:12px 16px"><span style="display:inline-flex;align-items:center;gap:5px;background:#f5f5f5;border:1px solid #e0e0e0;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:600"><span style="width:18px;height:18px;border-radius:3px;background:' + c.color + ';color:#fff;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center">' + c.icon + '</span>' + c.label + '</span></td>'
           + '<td style="padding:12px 16px">' + statusCell + '</td>'
           + '<td style="padding:12px 16px;white-space:nowrap"><button onclick="tdEditDS(' + idx + ')" style="background:none;border:none;color:var(--aws-blue);cursor:pointer;font-size:13px;padding:0;margin-right:12px">Edit</button><button onclick="tdRemoveDS(' + idx + ')" style="background:none;border:none;color:#d13212;cursor:pointer;font-size:13px;padding:0">Remove</button></td>'
@@ -4988,36 +5034,36 @@ function renderAdminOverview() {
       + '</div>';
   }).join('');
 
-  var dsCard = '<div style="background:#fff;border:1px solid #ddd;border-radius:8px;overflow:hidden;margin-bottom:24px">'
-    + '<div style="padding:16px 24px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between">'
+  var dsCard = '<div class="td-card" style="margin-bottom:24px">'
+    + '<div class="td-card-head">'
     + '<div style="display:flex;align-items:baseline;gap:8px">'
-    + '<span style="font-size:16px;font-weight:700;color:#1a1a1a">Data sources</span>'
-    + '<span style="font-size:13px;color:#888">(' + configuredDataSources.length + ')</span>'
+    + '<span class="td-card-title">Data sources</span>'
+    + '<span style="font-size:13px;color:var(--td-muted)">(' + configuredDataSources.length + ')</span>'
     + '</div>'
-    + '<button onclick="tdAddDataSource()" style="background:#fff;border:1px solid #aab7b8;color:#1a1a1a;padding:5px 16px;border-radius:3px;font-size:13px;cursor:pointer;font-weight:500">+ Add a data source</button>'
+    + '<button onclick="tdAddDataSource()" style="background:#fff;border:1px solid var(--td-border);color:var(--td-text);padding:6px 16px;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600">+ Add a data source</button>'
     + '</div>'
-    + '<table style="width:100%;border-collapse:collapse;font-size:13px">'
-    + '<thead><tr style="background:#fafafa;border-bottom:1px solid #e8e8e8">'
-    + '<th style="text-align:left;padding:9px 16px;font-weight:700;color:#333;font-size:12px">Name</th>'
-    + '<th style="text-align:left;padding:9px 16px;font-weight:700;color:#333;font-size:12px">Type</th>'
-    + '<th style="text-align:left;padding:9px 16px;font-weight:700;color:#333;font-size:12px">Status</th>'
-    + '<th style="padding:9px 16px"></th>'
+    + '<table class="td-table">'
+    + '<thead><tr>'
+    + '<th>Name</th>'
+    + '<th>Type</th>'
+    + '<th>Status</th>'
+    + '<th></th>'
     + '</tr></thead>'
     + '<tbody>' + dsRows + '</tbody></table>'
-    + '<div id="td-ds-add-section" style="display:none;padding:20px 24px;border-top:1px solid #e0e0e0;background:#fafafa">'
+    + '<div id="td-ds-add-section" style="display:none;padding:20px 24px;border-top:1px solid var(--td-border);background:#FAFBFD">'
     + '<div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:14px">Choose data source type</div>'
     + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">' + dsTiles + '</div>'
     + '<div id="td-ds-inline-form"></div>'
     + '</div>'
     + '</div>';
 
-  var schemaCard = '<div style="background:#fff;border:1px solid #ddd;border-radius:8px;overflow:hidden">'
-    + '<div style="padding:16px 24px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:10px">'
-    + '<span style="font-size:16px;font-weight:700;color:#1a1a1a">Schema Details</span>'
-    + '<span style="font-size:13px;font-style:italic;color:#888">&mdash; optional</span>'
-    + '<span style="background:var(--aws-blue);color:#fff;font-size:10px;padding:1px 7px;border-radius:3px;font-weight:700;margin-left:4px">Info</span>'
+  var schemaCard = '<div class="td-card">'
+    + '<div class="td-card-head" style="justify-content:flex-start;gap:10px">'
+    + '<span class="td-card-title">Schema Details</span>'
+    + '<span style="font-size:13px;font-style:italic;color:var(--td-muted)">&mdash; optional</span>'
+    + '<span style="background:var(--td-accent);color:#fff;font-size:10px;padding:1px 7px;border-radius:3px;font-weight:700;margin-left:4px">Info</span>'
     + '</div>'
-    + '<div style="padding:20px 24px">'
+    + '<div class="td-card-body">'
     + '<div style="font-size:13px;color:#888;margin-bottom:20px">Additional parameters used to optimize query generation and execution.</div>'
 
     + '<div style="margin-bottom:20px">'
@@ -5089,13 +5135,13 @@ function renderAdminOverview() {
     + '</div></div>';
 
   return '<div style="margin-bottom:24px">'
-    + '<h2 style="font-size:20px;font-weight:700;color:#1a1a1a;margin:0 0 4px">Teradata Fabric Universal Connector</h2>'
-    + '<div style="font-size:13px;color:#666">Deployed instance &mdash; us-east-2 &bull; m5.2xlarge &bull; CloudFormation stack: cfn-teradata-uc-prod</div>'
+    + '<h2 style="font-size:20px;font-weight:700;color:var(--td-text);margin:0 0 4px">Teradata Fabric Universal Connector</h2>'
+    + '<div style="font-size:13px;color:var(--td-muted)">Deployed instance &mdash; us-east-2 &bull; m5.2xlarge &bull; CloudFormation stack: cfn-teradata-uc-prod</div>'
     + '</div>'
 
     + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:28px">'
     + adminStatCard('Status', statusDot)
-    + adminStatCard('Software version', '<span style="font-weight:700;color:' + (tucVersion !== tucLatestVersion ? '#c0392b' : '#1a7a2e') + '">' + tucVersion + '</span>' + (tucVersion !== tucLatestVersion ? ' <span style="font-size:11px;color:#c0392b">(update available)</span>' : ''))
+    + adminStatCard('Software version', '<span style="font-weight:700;color:' + (tucVersion !== tucLatestVersion ? 'var(--td-red)' : 'var(--td-green)') + '">' + tucVersion + '</span>' + (tucVersion !== tucLatestVersion ? ' <span style="font-size:11px;color:var(--td-red)">(update available)</span>' : ''))
     + adminStatCard('Data sources', configuredDataSources.length + ' configured')
     + '</div>'
 
@@ -5104,9 +5150,9 @@ function renderAdminOverview() {
 }
 
 function adminStatCard(label, valueHtml) {
-  return '<div style="background:#fff;border:1px solid #ddd;border-radius:8px;padding:18px 20px">'
-    + '<div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">' + label + '</div>'
-    + '<div style="font-size:16px;color:#1a1a1a">' + valueHtml + '</div>'
+  return '<div class="td-stat-card">'
+    + '<div class="td-stat-label">' + label + '</div>'
+    + '<div class="td-stat-value">' + valueHtml + '</div>'
     + '</div>';
 }
 function adminDetailField(label, val) {
@@ -5115,48 +5161,53 @@ function adminDetailField(label, val) {
 
 function renderAdminSoftware() {
   var upToDate = tucVersion === tucLatestVersion;
-  var changelog = '<ul style="margin:0;padding-left:18px;font-size:13px;color:#444;line-height:1.8">'
+  var changelog = '<ul style="margin:0;padding-left:18px;font-size:13px;color:var(--td-text);line-height:1.8">'
     + '<li><strong>2.4.1</strong> &mdash; Performance improvements for large federated queries; TLS 1.3 support</li>'
     + '<li>Fixed memory leak in connection pool under high concurrency</li>'
     + '<li>Updated JDBC drivers for BigQuery and Databricks connectors</li>'
     + '<li>Admin UI: improved data source health indicators</li>'
     + '</ul>';
 
-  return '<div style="background:#fff;border:1px solid #ddd;border-radius:8px;padding:28px;max-width:700px">'
-    + '<div style="font-size:18px;font-weight:700;color:#1a1a1a;margin-bottom:20px">Software Management</div>'
+  var actionArea = upToDate
+    ? '<button class="td-btn-disabled" disabled>No update available</button>'
+    : '<div style="display:flex;align-items:center;gap:14px">'
+      + '<div id="admin-upgrade-status"></div>'
+      + '<button id="admin-upgrade-btn" class="td-btn-primary" onclick="performUpgrade()">Upgrade to ' + tucLatestVersion + '</button>'
+      + '</div>';
 
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;margin-bottom:24px">'
-    + '<div style="padding:16px 20px;border-right:1px solid #e0e0e0;background:#fafafa">'
-    + '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Installed version</div>'
-    + '<div id="admin-installed-ver" style="font-size:22px;font-weight:700;color:' + (upToDate ? '#1a7a2e' : '#c0392b') + '">' + tucVersion + '</div>'
-    + '<div style="font-size:12px;color:#888;margin-top:4px" id="admin-ver-status">' + (upToDate ? '&#10003; Up to date' : '&#9650; Update available') + '</div>'
+  return '<div class="td-card" style="padding:28px;max-width:760px">'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">'
+    + '<div style="font-size:18px;font-weight:700;color:var(--td-text)">Software Management</div>'
+    + actionArea
     + '</div>'
-    + '<div style="padding:16px 20px">'
-    + '<div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Latest version</div>'
-    + '<div style="font-size:22px;font-weight:700;color:#1a1a1a">' + tucLatestVersion + '</div>'
-    + '<div style="font-size:12px;color:#888;margin-top:4px">Released May 12, 2026</div>'
+
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">'
+    + '<div class="td-stat-card">'
+    + '<div class="td-stat-label">Installed Version</div>'
+    + '<div id="admin-installed-ver" style="font-size:22px;font-weight:700;color:' + (upToDate ? 'var(--td-green)' : 'var(--td-red)') + '">' + tucVersion + '</div>'
+    + '</div>'
+    + '<div class="td-stat-card">'
+    + '<div class="td-stat-label">Latest Version</div>'
+    + '<div style="font-size:22px;font-weight:700;color:var(--td-text)">' + tucLatestVersion + '</div>'
     + '</div></div>'
 
     + '<div style="margin-bottom:20px">'
-    + '<div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:10px">What\'s new in ' + tucLatestVersion + '</div>'
+    + '<div style="font-size:14px;font-weight:700;color:var(--td-text);margin-bottom:10px">What\'s new in ' + tucLatestVersion + '</div>'
     + changelog
     + '</div>'
 
     + (upToDate
-        ? '<div style="display:flex;align-items:center;gap:8px;background:#f0faf3;border:1px solid #a8e6ba;border-radius:6px;padding:12px 16px;font-size:13px;color:#1a7a2e;font-weight:600"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#22c55e"/><path d="M5 8l2.5 2.5L11 5.5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Software is up to date</div>'
-        : '<div style="display:flex;gap:12px;align-items:center">'
-          + '<button id="admin-upgrade-btn" onclick="performUpgrade()" style="background:#FF6B00;color:#fff;border:none;border-radius:4px;padding:9px 28px;font-size:14px;font-weight:700;cursor:pointer">Upgrade to ' + tucLatestVersion + '</button>'
-          + '<div id="admin-upgrade-status" style="font-size:13px;color:#666"></div>'
-          + '</div>')
+        ? '<div class="td-uptodate-banner"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#178A3B"/><path d="M5 8l2.5 2.5L11 5.5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Software is up to date</div>'
+        : '')
     + '</div>';
 }
 
 function renderAdminWIP(tab) {
   var labels = { observability: 'Observability', usage: 'Usage', identity: 'Identity Provider' };
-  return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 0;color:#888">'
-    + '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin-bottom:20px"><rect width="48" height="48" rx="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1.5"/><text x="24" y="32" text-anchor="middle" font-size="22" font-family="Arial">🚧</text></svg>'
-    + '<div style="font-size:18px;font-weight:700;color:#333;margin-bottom:8px">' + (labels[tab] || tab) + '</div>'
-    + '<div style="font-size:14px;color:#aaa">Work in progress</div>'
+  return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 0;color:var(--td-muted)">'
+    + '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin-bottom:20px"><rect width="48" height="48" rx="8" fill="var(--td-stat-bg)" stroke="var(--td-border)" stroke-width="1.5"/><text x="24" y="32" text-anchor="middle" font-size="22" font-family="Arial">🚧</text></svg>'
+    + '<div style="font-size:18px;font-weight:700;color:var(--td-text);margin-bottom:8px">' + (labels[tab] || tab) + '</div>'
+    + '<div style="font-size:14px;color:var(--td-muted)">Work in progress</div>'
     + '</div>';
 }
 
@@ -5165,17 +5216,20 @@ function performUpgrade() {
   var status = document.getElementById('admin-upgrade-status');
   if(!btn) return;
   btn.disabled = true;
-  btn.style.opacity = '0.6';
-  btn.textContent = 'Upgrading…';
+  btn.className = 'td-btn-disabled';
+  btn.textContent = 'Updating…';
 
   // Progress messages
   var messages = ['Downloading update package…', 'Stopping services…', 'Applying update…', 'Restarting services…', 'Verifying installation…'];
   var i = 0;
-  status.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 13 13" style="animation:spin .8s linear infinite"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#FF6B00" stroke-width="2"/><path d="M6.5 1.5 A5 5 0 0 1 11.5 6.5" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/></svg>' + messages[0] + '</span>';
+  function statusHtml(msg) {
+    return '<span class="td-verifying"><svg width="13" height="13" viewBox="0 0 13 13" style="animation:spin .8s linear infinite"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#C7D2FE" stroke-width="2"/><path d="M6.5 1.5 A5 5 0 0 1 11.5 6.5" stroke="#4F46E5" stroke-width="2" fill="none" stroke-linecap="round"/></svg>' + msg + '</span>';
+  }
+  status.innerHTML = statusHtml(messages[0]);
   var interval = setInterval(function() {
     i++;
     if(i < messages.length) {
-      status.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 13 13" style="animation:spin .8s linear infinite"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#FF6B00" stroke-width="2"/><path d="M6.5 1.5 A5 5 0 0 1 11.5 6.5" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/></svg>' + messages[i] + '</span>';
+      status.innerHTML = statusHtml(messages[i]);
     } else {
       clearInterval(interval);
       tucVersion = tucLatestVersion;
