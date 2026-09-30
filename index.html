@@ -588,10 +588,11 @@ let activeTab = "info";
 let prodTab = "overview";
 let deployComplete = false;
 let deployTimer = null;
-let currentApp = "main";
+let currentApp = "agentcore";
 let subscribed = false;
 let subscribing = false;
 let guideStage = 0;
+let marketplaceOfferViewed = false;
 
 const stackName = "td-fabric-universal-connector-prod";
 
@@ -1016,7 +1017,11 @@ function renderResourcesTable2() {
 
 function renderOutputsTable2() {
   const adminHint = guideStage === 2 ? " admin-ui-hint" : "";
+  const returnLink = new URLSearchParams(window.location.search).get("returnTo") === "agentcore"
+    ? '<div style="margin:0 0 14px"><a href="javascript:void(0)" onclick="returnToAgentCoreGateway()" style="color:var(--aws-blue);font-weight:700;text-decoration:none">Return to AgentCore Gateway</a></div>'
+    : '';
   return '' +
+    returnLink +
     '<table class="table2 out2">' +
       '<thead><tr><th>Key</th><th>Value</th><th>Description</th><th>Export name</th></tr></thead>' +
       '<tbody>' +
@@ -1034,6 +1039,10 @@ function pageStackInfo() {
   else if (activeTab === "outputs") tabContent = renderOutputsTable2();
   else if (activeTab === "info") tabContent = renderStackInfoOverview();
   else tabContent = '<div class="si-empty">No additional data available in this mock.</div>';
+
+  const returnLink = new URLSearchParams(window.location.search).get("returnTo") === "agentcore"
+    ? '<div style="margin-bottom:16px"><a href="javascript:void(0)" onclick="returnToAgentCoreGateway()" style="color:var(--aws-blue);font-weight:700;text-decoration:none">Return to AgentCore Gateway</a></div>'
+    : '';
 
   return crumbHtml([
     { label: "AWS CloudFormation", onclick: "goStep(8)" },
@@ -1056,6 +1065,7 @@ function pageStackInfo() {
           '</div>' +
         '</div>' +
         '<div class="si-subline">Stack ID: arn:aws:cloudformation:us-east-2:123456789012:stack/' + stackName + '/9f3c1a20-71e4-11ef-9f2a-0abcdef01234</div>' +
+        returnLink +
         siTabsHtml() +
         tabContent +
       '</div>' +
@@ -1159,14 +1169,20 @@ function goStep(next) {
   render();
 }
 
+const ADMIN_UI_PAGE = "file:///Users/grant.frame/Downloads/adminuimock-teradata-merged.html";
+
 function openAdminUIInNewWindow() {
   if (guideStage === 2) guideStage = 3;
-  window.open(window.location.pathname + "?admin=1", "_blank");
+  window.open(ADMIN_UI_PAGE, "_blank");
   render();
 }
 
 function openAgentCoreGatewayConsole() {
   currentApp = "agentcore";
+  selectedProvider = providers && providers.find(function(p) { return p.id === 'teradata'; });
+  selectedTemplate = 'teradata-enterprise-fabric';
+  acStep = 1;
+  acRender();
   render();
 }
 
@@ -1407,23 +1423,21 @@ function renderStep1() {
     + '</div>'
     + '<div style="padding:20px 24px">'
     + '<div style="font-size:13px;color:#16191F;margin-bottom:16px;line-height:1.5">Associate a Lambda function with this target to connect Amazon Bedrock AgentCore to Teradata Vantage and other enterprise data sources. Enables federated queries, semantic search, and real-time data access for AI agents.</div>'
-    + '<div class="form-group" style="max-width:560px;margin-bottom:0">'
-    + '<label class="form-label">Lambda ARN</label>'
-    + '<div class="form-hint">Select the Lambda function to associate with this target.</div>'
-    + '<select class="form-select" id="td-lambda-select">'
-    + lambdaOptionsHtml()
-    + '</select>'
-    + '</div>'
-    + '<div class="form-group" style="max-width:560px;margin-bottom:0;margin-top:16px">'
-    + '<label class="form-label">Knowledge Base ARN</label>'
-    + '<div class="form-hint">Select the Bedrock knowledge base to associate with this target.</div>'
-    + '<select class="form-select" id="td-kb-select">'
-    + kbOptionsHtml()
-    + '</select>'
-    + '</div>'
-    + '<div style="display:flex;gap:10px;align-items:center;margin-top:18px">'
-    + '<button onclick="confirmLambdaTarget()" style="background:#FF9900;color:#fff;border:1px solid #E88B00;border-radius:3px;padding:7px 22px;font-size:13px;font-weight:700;cursor:pointer">Create gateway</button>'
-    + '<span style="font-size:12px;color:#687078">' + ((qpLambdaArn || qpKbArn) ? 'The Lambda function and Knowledge base created by your CloudFormation deployment are preselected for this target.' : 'The Teradata Fabric Universal Connector Lambda and Knowledge Base are preselected for this target.') + '</span>'
+    + (marketplaceOfferViewed
+      ? '<div class="form-group" style="max-width:560px;margin-bottom:0">'
+          + '<label class="form-label">Lambda ARN</label>'
+          + '<div class="form-hint">Select the Lambda function to associate with this target.</div>'
+          + '<select class="form-select" id="td-lambda-select">'
+          + lambdaOptionsHtml()
+          + '</select>'
+          + '</div>'
+          + '<div style="display:flex;gap:10px;align-items:center;margin-top:18px">'
+          + '<button onclick="confirmLambdaTarget()" style="background:#FF9900;color:#fff;border:1px solid #E88B00;border-radius:3px;padding:7px 22px;font-size:13px;font-weight:700;cursor:pointer">Create gateway</button>'
+          + '<span style="font-size:12px;color:#687078">' + (qpLambdaArn ? 'The Lambda function created by your CloudFormation deployment is preselected for this target.' : 'The Teradata Fabric Universal Connector Lambda is preselected for this target.') + '</span>'
+          + '</div>'
+      : '<div style="margin-top:8px;font-size:12px;color:#687078">Complete the marketplace offer flow before selecting the Lambda ARN or creating this gateway.</div>')
+    + '<div style="margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+    + '<a href="javascript:void(0)" onclick="openMarketplaceFromGateway()" style="color:var(--aws-blue);font-size:12px;font-weight:700;text-decoration:none">View marketplace offer</a>'
     + '</div>'
     + '</div></div></div>'
 
@@ -1663,6 +1677,33 @@ function onTemplateChange(val) {
     if(tg) tg.style.display = 'block';
   }
 }
+function openMarketplaceFromGateway() {
+  marketplaceOfferViewed = true;
+  const params = new URLSearchParams(window.location.search);
+  params.set('marketplace', '1');
+  params.set('returnTo', 'agentcore');
+  params.set('marketplaceOfferViewed', '1');
+  window.location.href = window.location.pathname + '?' + params.toString();
+}
+
+function returnToAgentCoreGateway() {
+  marketplaceOfferViewed = true;
+  const params = new URLSearchParams(window.location.search);
+  params.delete('marketplace');
+  params.delete('returnTo');
+  params.set('agentcore', '1');
+  params.set('marketplaceOfferViewed', '1');
+  currentApp = 'agentcore';
+  selectedProvider = providers && providers.find(function(p) { return p.id === 'teradata'; });
+  selectedTemplate = 'teradata-enterprise-fabric';
+  qpLambdaArn = cfLambdaArn;
+  acStep = 1;
+  acRender();
+  render();
+  const nextUrl = window.location.pathname + '?' + params.toString();
+  window.history.replaceState({}, '', nextUrl);
+}
+
 function confirmLambdaTarget() {
   var mktPanel = document.getElementById('td-marketplace-panel');
   if(mktPanel) mktPanel.style.display='none';
@@ -2688,18 +2729,6 @@ function renderGatewayDetail() {
   +'<td style="padding:10px 14px;color:var(--aws-muted)">April 28, 2026, 14:42</td>'
   +'</tr>'
 
-  /* Row 2 - Knowledge Base */
-  +'<tr style="border-bottom:1px solid #e0e0e0">'
-  +'<td style="padding:10px 12px"><input type="radio" name="tgt-sel" style="accent-color:var(--aws-blue)"/></td>'
-  +'<td style="padding:10px 14px;color:var(--aws-blue);cursor:pointer;font-weight:500" onclick="openKBFromGateway()">target-enterprise-knowledge-base</td>'
-  +'<td style="padding:10px 14px"><span style="display:inline-flex;align-items:center;gap:4px;color:#1E8900;font-weight:500"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="#E8F5E9" stroke="#1E8900" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#1E8900" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Enabled</span></td>'
-  +'<td style="padding:10px 14px"><span style="display:inline-flex;align-items:center;gap:5px;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600;color:#1e6e1e"><span style="background:#1e8900;color:#fff;font-size:8px;font-weight:800;padding:1px 4px;border-radius:2px">KB</span>Knowledge Base</span></td>'
-  +'<td style="padding:10px 14px;color:var(--aws-muted)">-</td>'
-  +'<td style="padding:10px 14px;color:var(--aws-muted)">-</td>'
-  +'<td style="padding:10px 14px;color:var(--aws-muted)">Enterprise Knowledge Base — NL-to-SQL schema context</td>'
-  +'<td style="padding:10px 14px;color:var(--aws-muted)">April 28, 2026, 14:42</td>'
-  +'<td style="padding:10px 14px;color:var(--aws-muted)">April 28, 2026, 14:42</td>'
-  +'</tr>'
   +'</tbody></table></div>'
 
   /* Associated policies */
@@ -5249,20 +5278,45 @@ function performUpgrade() {
 (function initFromReturnUrl() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("admin") === "1") {
-    subscribed = true;
-    deployComplete = true;
-    currentApp = "agentcore";
-    step = 8;
-    activeTab = "outputs";
-    document.querySelector(".aws-nav").style.display = "none";
-    render();
-    showAdminUI();
+    window.location.replace(ADMIN_UI_PAGE);
     return;
   }
+
+  if (params.get("marketplaceOfferViewed") === "1") {
+    marketplaceOfferViewed = true;
+  }
+
+  if (params.get("marketplace") === "1") {
+    currentApp = "main";
+    step = 1;
+    subscribed = false;
+    subscribing = false;
+    activeTab = "info";
+    return;
+  }
+
+  if (params.get("agentcore") === "1") {
+    currentApp = "agentcore";
+    selectedProvider = providers && providers.find(function(p) { return p.id === 'teradata'; });
+    selectedTemplate = 'teradata-enterprise-fabric';
+    acStep = 1;
+    acRender();
+    return;
+  }
+
   const qStep = parseInt(params.get("step"), 10);
   if (qStep === 8) {
     subscribed = true;
     deployComplete = true;
+    if (params.get("returnTo") === "agentcore") {
+      currentApp = "agentcore";
+      selectedProvider = providers && providers.find(function(p) { return p.id === 'teradata'; });
+      selectedTemplate = 'teradata-enterprise-fabric';
+      qpLambdaArn = cfLambdaArn;
+      acStep = 1;
+      acRender();
+      return;
+    }
     currentApp = "main";
     step = 8;
     const qTab = params.get("tab");
