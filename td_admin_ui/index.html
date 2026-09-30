@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teradata Fabric Universal Connector - Admin UI</title>
+    <style>
+      :root {
+        --td-bg: #f4f6f8;
+        --td-panel: #ffffff;
+        --td-border: #dfe5e8;
+        --td-text: #1a1d1f;
+        --td-muted: #58636b;
+        --td-accent: #1f6feb;
+        --td-success: #1f8f4d;
+        --td-warning: #d97706;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--td-bg);
+        color: var(--td-text);
+      }
+
+      .td-page {
+        min-height: 100vh;
+        background: linear-gradient(180deg, #f5f7f9 0%, #edf1f4 100%);
+      }
+
+      .td-header {
+        background: #fff;
+        border-bottom: 1px solid var(--td-border);
+        padding: 18px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .td-header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .td-logo {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.06em;
+        color: #151a1c;
+      }
+
+      .td-logo-dot { color: #ff7a00; }
+
+      .td-header-title {
+        font-size: 17px;
+        font-weight: 600;
+        color: #1d2124;
+      }
+
+      .td-subnav {
+        background: #fff;
+        border-bottom: 1px solid var(--td-border);
+        padding: 0 28px;
+        display: flex;
+        gap: 22px;
+        overflow-x: auto;
+      }
+
+      .td-tab {
+        padding: 15px 0 13px;
+        font-size: 13px;
+        color: var(--td-muted);
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+      }
+
+      .td-tab.active {
+        color: var(--td-accent);
+        border-color: var(--td-accent);
+        font-weight: 700;
+      }
+
+      .td-content-wrap {
+        max-width: 1200px;
+        margin: 28px auto 48px;
+        padding: 0 20px;
+      }
+
+      .td-top-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .td-stat-card {
+        background: var(--td-panel);
+        border: 1px solid var(--td-border);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+
+      .td-stat-label {
+        font-size: 12px;
+        color: var(--td-muted);
+        margin-bottom: 12px;
+      }
+
+      .td-stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--td-text);
+      }
+
+      .td-status-running {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--td-success);
+        font-weight: 600;
+      }
+
+      .td-status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--td-success);
+        display: inline-block;
+      }
+
+      .td-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+        gap: 22px;
+      }
+
+      .td-card {
+        background: var(--td-panel);
+        border: 1px solid var(--td-border);
+        border-radius: 12px;
+      }
+
+      .td-card h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+
+      .td-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--td-border);
+      }
+
+      .td-card-body {
+        padding: 18px 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--td-border);
+      }
+
+      th {
+        color: var(--td-muted);
+        font-weight: 700;
+        background: #fafbfc;
+      }
+
+      .td-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--td-border);
+        background: #f6f7f9;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .td-type {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: #eef7ff;
+        border: 1px solid #d6e7ff;
+        color: #0b4ea6;
+        font-weight: 700;
+      }
+
+      .td-type .marker {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        background: #0b4ea6;
+        color: #fff;
+        font-size: 9px;
+      }
+
+      .td-image-card {
+        background: var(--td-panel);
+        border: 1px solid var(--td-border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .td-image-card img {
+        width: 100%;
+        display: block;
+      }
+
+      .td-button {
+        background: #fff;
+        border: 1px solid var(--td-border);
+        border-radius: 6px;
+        padding: 7px 16px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .td-button.primary {
+        color: #fff;
+        background: #ff7a00;
+        border-color: #ff7a00;
+      }
+
+      .td-empty {
+        text-align: center;
+        color: var(--td-muted);
+        font-size: 13px;
+        padding: 26px 12px;
+      }
+
+      @media (max-width: 900px) {
+        .td-top-row,
+        .td-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="td-page">
+      <div class="td-header">
+        <div class="td-header-left">
+          <div class="td-logo">teradata<span class="td-logo-dot">.</span></div>
+          <div class="td-header-title">Fabric Universal Connector - Admin UI</div>
+        </div>
+        <a class="td-button" href="../index.html" style="text-decoration:none; color: inherit;">Back to gateway mock</a>
+      </div>
+
+      <nav class="td-subnav" id="nav-tabs">
+        <div class="td-tab active" data-tab="overview">Overview</div>
+        <div class="td-tab" data-tab="software">Software Management</div>
+        <div class="td-tab" data-tab="observability">Observability</div>
+        <div class="td-tab" data-tab="usage">Usage</div>
+        <div class="td-tab" data-tab="identity">Identity Provider</div>
+      </nav>
+
+      <main class="td-content-wrap">
+        <section class="td-top-row">
+          <div class="td-stat-card">
+            <div class="td-stat-label">Status</div>
+            <div class="td-stat-value"><span class="td-status-running"><span class="td-status-dot"></span>Running</span></div>
+          </div>
+          <div class="td-stat-card">
+            <div class="td-stat-label">Software version</div>
+            <div class="td-stat-value">2.4.1</div>
+          </div>
+          <div class="td-stat-card">
+            <div class="td-stat-label">Data sources</div>
+            <div class="td-stat-value">2</div>
+          </div>
+        </section>
+
+        <section id="tab-content" class="td-layout"></section>
+      </main>
+    </div>
+
+    <script>
+      const tabMap = {
+        overview: {
+          title: 'Overview',
+          image: 'style-1.png',
+          content: `
+            <div class="td-card">
+              <div class="td-card-header">
+                <h3>Data sources</h3>
+                <button class="td-button">+ Add a data source</button>
+              </div>
+              <div class="td-card-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>teradata-primary</td>
+                      <td><span class="td-type"><span class="marker">TD</span>Teradata</span></td>
+                      <td><span class="td-status-running"><span class="td-status-dot"></span>Ready</span></td>
+                      <td><button class="td-button">Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td>bigquery-analytics</td>
+                      <td><span class="td-type"><span class="marker">BQ</span>BigQuery</span></td>
+                      <td><span class="td-status-running"><span class="td-status-dot"></span>Ready</span></td>
+                      <td><button class="td-button">Edit</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="td-image-card" style="margin-top: 22px;">
+              <img src="${'style-1.png'}" alt="Overview" />
+            </div>
+          `
+        },
+        software: {
+          title: 'Software Management',
+          image: 'style-2.png',
+          content: `
+            <div class="td-card">
+              <div class="td-card-header">
+                <h3>Software Management</h3>
+                <button class="td-button primary">Upgrade to 2.4.1</button>
+              </div>
+              <div class="td-card-body">
+                <div class="td-empty">Installed version: 2.4.0<br />Latest available: 2.4.1</div>
+              </div>
+            </div>
+            <div class="td-image-card" style="margin-top: 22px;">
+              <img src="style-2.png" alt="Software Management" />
+            </div>
+          `
+        },
+        observability: {
+          title: 'Observability',
+          image: 'style-3.png',
+          content: `
+            <div class="td-card">
+              <div class="td-card-header">
+                <h3>Observability</h3>
+              </div>
+              <div class="td-card-body">
+                <div class="td-empty">No alerts in the last 24 hours.</div>
+              </div>
+            </div>
+            <div class="td-image-card" style="margin-top: 22px;">
+              <img src="style-3.png" alt="Observability" />
+            </div>
+          `
+        },
+        usage: {
+          title: 'Usage',
+          image: 'style-4.png',
+          content: `
+            <div class="td-card">
+              <div class="td-card-header">
+                <h3>Usage</h3>
+              </div>
+              <div class="td-card-body">
+                <div class="td-empty">Queries processed: 18,432 this week</div>
+              </div>
+            </div>
+            <div class="td-image-card" style="margin-top: 22px;">
+              <img src="style-4.png" alt="Usage" />
+            </div>
+          `
+        },
+        identity: {
+          title: 'Identity Provider',
+          image: 'style-5.png',
+          content: `
+            <div class="td-card">
+              <div class="td-card-header">
+                <h3>Identity Provider</h3>
+              </div>
+              <div class="td-card-body">
+                <div class="td-empty">Federation: Okta<br />SAML: Enabled</div>
+              </div>
+            </div>
+            <div class="td-image-card" style="margin-top: 22px;">
+              <img src="style-5.png" alt="Identity Provider" />
+            </div>
+          `
+        }
+      };
+
+      function renderTab(tabName) {
+        const tab = tabMap[tabName] || tabMap.overview;
+        document.querySelectorAll('.td-tab').forEach((node) => {
+          node.classList.toggle('active', node.dataset.tab === tabName);
+        });
+        document.getElementById('tab-content').innerHTML = tab.content;
+      }
+
+      document.querySelectorAll('.td-tab').forEach((tab) => {
+        tab.addEventListener('click', () => renderTab(tab.dataset.tab));
+      });
+
+      renderTab('overview');
+    </script>
+  </body>
+</html>

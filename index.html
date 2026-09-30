@@ -1169,11 +1169,11 @@ function goStep(next) {
   render();
 }
 
-const ADMIN_UI_PAGE = "file:///Users/grant.frame/Downloads/adminuimock-teradata-merged.html";
+const ADMIN_UI_PAGE = "./td_admin_ui/index.html";
 
 function openAdminUIInNewWindow() {
   if (guideStage === 2) guideStage = 3;
-  window.open(ADMIN_UI_PAGE, "_blank");
+  window.open(ADMIN_UI_PAGE, "_blank", "noopener,noreferrer");
   render();
 }
 
